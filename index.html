@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prizma - Türkçe Bilgi Yarışması</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="questions.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        .animate-bounce {
+            animation: bounce 1s infinite;
+        }
+        
+        .animate-ping {
+            animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+        
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: .5;
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(-25%);
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+            }
+            50% {
+                transform: translateY(0);
+                animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+            }
+        }
+        
+        @keyframes ping {
+            75%, 100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+        
+        .hover\:scale-105:hover {
+            transform: scale(1.05);
+        }
+        
+        .hover\:scale-102:hover {
+            transform: scale(1.02);
+        }
+        
+        .hover\:scale-110:hover {
+            transform: scale(1.1);
+        }
+        
+        .scale-105 {
+            transform: scale(1.05);
+        }
+        
+        .scale-102 {
+            transform: scale(1.02);
+        }
+        
+        .backdrop-blur-lg {
+            backdrop-filter: blur(16px);
+        }
+        
+        .bg-clip-text {
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+        
+        .text-transparent {
+            color: transparent;
+        }
+
+        /* Mobil uyumluluk için ek stiller */
+        @media (max-width: 768px) {
+            .mobile-title {
+                font-size: 2.5rem !important;
+                line-height: 1.2 !important;
+            }
+            
+            .mobile-subtitle {
+                font-size: 1.1rem !important;
+            }
+            
+            .mobile-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.75rem !important;
+            }
+            
+            .mobile-button {
+                padding: 0.75rem !important;
+                font-size: 0.875rem !important;
+            }
+            
+            .mobile-text {
+                font-size: 1rem !important;
+            }
+            
+            .mobile-padding {
+                padding: 1rem !important;
+            }
+            
+            .mobile-margin {
+                margin: 0.5rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mobile-title {
+                font-size: 2rem !important;
+            }
+            
+            .mobile-grid {
+                grid-template-columns: 1fr !important;
+            }
+            
+            .mobile-flex {
+                flex-direction: column !important;
+            }
+        }
+
+        /* PRİZMA yazısı için özel animasyon */
+        .prizma-text {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(255, 107, 107, 0.5);
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .prizma-glow {
+            filter: drop-shadow(0 0 20px rgba(255, 107, 107, 0.6));
+        }
+
+        /* Çark sistemi için CSS */
+        .wheel-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .wheel-container {
+                width: 300px;
+                height: 300px;
+            }
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            transition: transform 3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .wheel-spinning {
+            animation: spin 3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .wheel-segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 10px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        @media (min-width: 768px) {
+            .wheel-segment {
+                font-size: 12px;
+            }
+        }
+
+        .wheel-segment:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            z-index: 100;
+        }
+
+        @media (min-width: 768px) {
+            .wheel-center {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+        }
+
+        .wheel-center:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #ff6b6b;
+            z-index: 200;
+        }
+
+        .random-mode {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 400% 400%;
+            animation: gradientShift 2s ease infinite;
+        }
+
+        .selected-category {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4) !important;
+            transform: scale(1.1) !important;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.8) !important;
+        }
+
+        /* Yeni rastgele kategori seçim sistemi */
+        .random-category-system {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .category-display {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+            transform: scale(1);
+            transition: all 0.3s ease;
+        }
+
+        .category-display.selected {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.5);
+        }
+
+        .random-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .random-btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .random-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .random-btn:active {
+            transform: translateY(0);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .category-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .category-item.selected {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-color: #ff6b6b;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        const TRANSLATIONS = {
+          "tr-TR": {
+            "triviaTitle": "PRİZMA",
+            "triviaSubtitle": "Bilginizi Test Edin",
+            "rulesTitle": "📋 Kurallar ve Bilgiler",
+            "rulesContent": {
+              "howToPlay": "🎮 Nasıl Oynanır?",
+              "howToPlayDesc": "İstediğiniz kategorileri seçin, zorluk seviyenizi belirleyin ve soru sayısını ayarlayın. Her soruya 4 seçenekten birini seçerek cevap verin.",
+              "questionBank": "🎯 Soru Bankası",
+              "questionBankDesc": "Sonsuz soru çeşitliliği! Her oyunda Claude AI tarafından gerçek zamanlı olarak yeni sorular üretilir. Aynı soruyu iki kez görmezsiniz.",
+              "scoring": "⭐ Puanlama",
+              "scoringDesc": "Her doğru cevap 1 puan değerindedir. Oyun sonunda başarı yüzdenizi ve detaylı analizinizi görebilirsiniz.",
+              "categories": "🎨 Kategoriler",
+              "categoriesDesc": "16 farklı kategori: Türkiye Tarihi, Dünya Tarihi, Coğrafya, Spor, Sinema, Müzik, Edebiyat, Sanat, Teknoloji, Yemek Kültürü, Hayvanlar, Uzay, Türk Dili, Matematik, Fen Bilgisi, Türk Musikisi",
+              "difficulty": "⚡ Zorluk Seviyeleri",
+              "difficultyDesc": "Kolay: Temel bilgiler, Orta: Genel kültür, Zor: Uzman seviyesi sorular"
+            },
+            "categoriesTitle": "Kategoriler",
+            "difficultyTitle": "Zorluk Seviyesi",
+            "numQuestionsTitle": "Soru Sayısı",
+            "startGameButton": "Oyunu Başlat",
+            "generatingQuestionsTitle": "Sorular hazırlanıyor...",
+            "generatingQuestionsSubtitle": "Bilgi yarışmanız için sorular oluşturuluyor",
+            "questionOf": "Soru",
+            "of": "/",
+            "score": "Puan:",
+            "checkAnswerButton": "Cevabı Kontrol Et",
+            "nextQuestionButton": "Sonraki Soru",
+            "finishGameButton": "Oyunu Bitir",
+            "resultsTitle": "Sonuçlar",
+            "correct": "Doğru",
+            "excellentMessage": "🏆 Mükemmel!",
+            "goodJobMessage": "👍 Harika iş!",
+            "notBadMessage": "👌 Fena değil!",
+            "keepStudyingMessage": "📚 Daha çok çalış!",
+            "yourAnswer": "Cevabınız:",
+            "correctAnswer": "Doğru cevap:",
+            "playAgainButton": "Tekrar Oyna",
+            "selectCategoryAlert": "Lütfen en az bir kategori seçin!",
+            "selectAnswerAlert": "Lütfen bir cevap seçin!",
+            "generateQuestionsError": "Sorular oluşturulamadı. Lütfen tekrar deneyin.",
+            "easy": "Kolay",
+            "medium": "Orta",
+            "hard": "Zor"
+          }
+        };
+
+        const appLocale = 'tr-TR';
+        const locale = 'tr-TR';
+        const t = (key) => TRANSLATIONS[locale]?.[key] || key;
+
+        const TriviaGame = () => {
+          const [gameState, setGameState] = useState('setup');
+          const [categories, setCategories] = useState([]);
+          const [difficulty, setDifficulty] = useState('medium');
+          const [numQuestions, setNumQuestions] = useState(5);
+          const [questions, setQuestions] = useState([]);
+          const [currentQuestion, setCurrentQuestion] = useState(0);
+          const [selectedAnswer, setSelectedAnswer] = useState(null);
+          const [score, setScore] = useState(0);
+          const [answers, setAnswers] = useState([]);
+          const [showAnswer, setShowAnswer] = useState(false);
+          const [showRandomSystem, setShowRandomSystem] = useState(false);
+          const [selectedRandomCategory, setSelectedRandomCategory] = useState(null);
+          const [isSpinning, setIsSpinning] = useState(false);
+
+          const availableCategories = [
+            { name: 'Türkiye Tarihi', emoji: '🏛️', color: 'from-amber-400 to-orange-500' },
+            { name: 'Dünya Tarihi', emoji: '🌍', color: 'from-blue-400 to-indigo-500' },
+            { name: 'Coğrafya', emoji: '🗺️', color: 'from-emerald-400 to-teal-500' },
+            { name: 'Spor', emoji: '⚽', color: 'from-green-400 to-lime-500' },
+            { name: 'Sinema', emoji: '🎬', color: 'from-purple-400 to-pink-500' },
+            { name: 'Müzik', emoji: '🎵', color: 'from-rose-400 to-red-500' },
+            { name: 'Edebiyat', emoji: '📚', color: 'from-indigo-400 to-purple-500' },
+            { name: 'Sanat', emoji: '🎨', color: 'from-pink-400 to-rose-500' },
+            { name: 'Teknoloji', emoji: '💻', color: 'from-cyan-400 to-blue-500' },
+            { name: 'Yemek Kültürü', emoji: '🍽️', color: 'from-orange-400 to-red-500' },
+            { name: 'Hayvanlar', emoji: '🦁', color: 'from-yellow-400 to-orange-500' },
+            { name: 'Uzay', emoji: '🚀', color: 'from-violet-400 to-purple-500' },
+            { name: 'Türk Dili', emoji: '📖', color: 'from-red-400 to-pink-500' },
+            { name: 'Matematik', emoji: '🔢', color: 'from-teal-400 to-cyan-500' },
+            { name: 'Fen Bilgisi', emoji: '🧪', color: 'from-lime-400 to-green-500' },
+            { name: 'Türk Musikisi', emoji: '🎶', color: 'from-amber-400 to-yellow-500' }
+          ];
+
+          const toggleCategory = (categoryName) => {
+            setCategories(prev => 
+              prev.includes(categoryName) 
+                ? prev.filter(c => c !== categoryName)
+                : [...prev, categoryName]
+            );
+          };
+
+          const spinRandomCategory = () => {
+            setIsSpinning(true);
+            setSelectedRandomCategory(null);
+            
+            // Rastgele animasyon süresi (2-4 saniye)
+            const spinDuration = 2000 + Math.random() * 2000;
+            
+            setTimeout(() => {
+              setIsSpinning(false);
+              
+              // Rastgele kategori seç
+              const randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
+              setSelectedRandomCategory(randomCategory);
+              
+              // Seçilen kategoriyi otomatik olarak ekle
+              if (!categories.includes(randomCategory.name)) {
+                setCategories(prev => [...prev, randomCategory.name]);
+              }
+            }, spinDuration);
+          };
+
+          const selectRandomCategory = () => {
+            const randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
+            setSelectedRandomCategory(randomCategory);
+            
+            if (!categories.includes(randomCategory.name)) {
+              setCategories(prev => [...prev, randomCategory.name]);
+            }
+          };
+
+          const selectMultipleRandom = (count) => {
+            const shuffled = [...availableCategories].sort(() => Math.random() - 0.5);
+            const selected = shuffled.slice(0, count);
+            
+            selected.forEach(category => {
+              if (!categories.includes(category.name)) {
+                setCategories(prev => [...prev, category.name]);
+              }
+            });
+            
+            setSelectedRandomCategory(selected[0]);
+          };
+
+          const RandomCategorySystem = () => {
+            return (
+              <div className="random-category-system">
+                <h3 className="text-xl font-bold text-cyan-300 mb-4 text-center">🎯 Rastgele Kategori Seç</h3>
+                
+                {/* Seçilen kategori gösterimi */}
+                {selectedRandomCategory && (
+                  <div className={`category-display ${isSpinning ? 'animate-pulse' : 'selected'}`}>
+                    <div className="text-3xl mb-2">{selectedRandomCategory.emoji}</div>
+                    <div className="text-lg">{selectedRandomCategory.name}</div>
+                  </div>
+                )}
+                
+                {/* Rastgele butonlar */}
+                <div className="random-buttons">
+                  <button 
+                    className="random-btn"
+                    onClick={spinRandomCategory}
+                    disabled={isSpinning}
+                  >
+                    {isSpinning ? '🎲 Döndürülüyor...' : '🎲 Tek Kategori'}
+                  </button>
+                  
+                  <button 
+                    className="random-btn"
+                    onClick={() => selectMultipleRandom(3)}
+                    disabled={isSpinning}
+                  >
+                    🎯 3 Kategori
+                  </button>
+                  
+                  <button 
+                    className="random-btn"
+                    onClick={() => selectMultipleRandom(5)}
+                    disabled={isSpinning}
+                  >
+                    🎯 5 Kategori
+                  </button>
+                  
+                  <button 
+                    className="random-btn"
+                    onClick={() => selectMultipleRandom(8)}
+                    disabled={isSpinning}
+                  >
+                    🎯 8 Kategori
+                  </button>
+                </div>
+                
+                {/* Tüm kategoriler grid */}
+                <div className="mt-6">
+                  <h4 className="text-lg font-bold text-yellow-300 mb-3 text-center">📋 Tüm Kategoriler</h4>
+                  <div className="category-grid">
+                    {availableCategories.map(category => (
+                      <div
+                        key={category.name}
+                        className={`category-item ${categories.includes(category.name) ? 'selected' : ''}`}
+                        onClick={() => toggleCategory(category.name)}
+                      >
+                        <div className="text-2xl mb-1">{category.emoji}</div>
+                        <div className="text-sm">{category.name}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          };
+
+          const generateQuestions = async () => {
+            if (categories.length === 0) {
+              alert(t('selectCategoryAlert'));
+              return;
+            }
+
+            setGameState('loading');
+            
+            // Gerçek soru veritabanından sorular seç
+            setTimeout(() => {
+              let availableQuestions = [];
+              
+              // Seçilen kategorilerden sorular topla
+              categories.forEach(category => {
+                if (QUESTION_DATABASE[category]) {
+                  const categoryQuestions = QUESTION_DATABASE[category][difficulty] || [];
+                  categoryQuestions.forEach(q => {
+                    availableQuestions.push({
+                      ...q,
+                      category: category
+                    });
+                  });
+                }
+              });
+              
+              // Rastgele sorular seç
+              const shuffled = availableQuestions.sort(() => Math.random() - 0.5);
+              const selectedQuestions = shuffled.slice(0, numQuestions);
+              setQuestions(selectedQuestions);
+              setGameState('playing');
+              setCurrentQuestion(0);
+              setScore(0);
+              setAnswers([]);
+            }, 2000);
+          };
+
+          const selectAnswer = (answerIndex) => {
+            setSelectedAnswer(answerIndex);
+          };
+
+          const nextQuestion = () => {
+            if (selectedAnswer === null) {
+              alert(t('selectAnswerAlert'));
+              return;
+            }
+
+            if (!showAnswer) {
+              setShowAnswer(true);
+              return;
+            }
+
+            const isCorrect = selectedAnswer === questions[currentQuestion].correctAnswer;
+            const newAnswers = [...answers, {
+              questionIndex: currentQuestion,
+              selectedAnswer,
+              isCorrect
+            }];
+            
+            setAnswers(newAnswers);
+            
+            if (isCorrect) {
+              setScore(score + 1);
+            }
+            
+            if (currentQuestion + 1 < questions.length) {
+              setCurrentQuestion(currentQuestion + 1);
+              setSelectedAnswer(null);
+              setShowAnswer(false);
+            } else {
+              setGameState('results');
+            }
+          };
+
+          const resetGame = () => {
+            setGameState('setup');
+            setCurrentQuestion(0);
+            setSelectedAnswer(null);
+            setScore(0);
+            setAnswers([]);
+            setQuestions([]);
+            setShowAnswer(false);
+          };
+
+          if (gameState === 'setup') {
+            return (
+              <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white p-4">
+                <div className="max-w-4xl mx-auto">
+                  <div className="text-center mt-4 md:mt-8 mb-8 md:mb-12">
+                    <div className="relative">
+                      <h1 className="mobile-title text-4xl md:text-6xl lg:text-8xl font-black mb-4 prizma-text prizma-glow">
+                        ✨ {t('triviaTitle')} ✨
+                      </h1>
+                      <div className="absolute -top-2 md:-top-4 -right-2 md:-right-4 text-3xl md:text-6xl animate-bounce">🎯</div>
+                      <div className="absolute -top-1 md:-top-2 -left-3 md:-left-6 text-2xl md:text-4xl animate-spin">🌟</div>
+                    </div>
+                    <p className="mobile-subtitle text-lg md:text-2xl text-cyan-200 font-semibold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                      {t('triviaSubtitle')}
+                    </p>
+                  </div>
+
+                  <div className="bg-white/10 backdrop-blur-lg rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-2xl border border-white/20">
+                    <div className="mb-6 md:mb-10">
+                      <h2 className="mobile-text text-xl md:text-3xl font-bold mb-4 md:mb-6 text-yellow-300 flex items-center gap-2 md:gap-3">
+                        🎨 {t('categoriesTitle')}
+                      </h2>
+                      
+                      {/* Rastgele Kategori Sistemi */}
+                      <div className="mb-8 text-center">
+                        <button
+                          onClick={() => setShowRandomSystem(!showRandomSystem)}
+                          className="mb-4 bg-gradient-to-r from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg transform hover:scale-105"
+                        >
+                          {showRandomSystem ? '🎯 Sistemi Gizle' : '🎯 Rastgele Sistem'}
+                        </button>
+                        
+                        {showRandomSystem && (
+                          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+                            <RandomCategorySystem />
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="mobile-grid grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
+                        {availableCategories.map(category => (
+                          <button
+                            key={category.name}
+                            onClick={() => toggleCategory(category.name)}
+                            className={`mobile-button group relative p-3 md:p-4 rounded-xl md:rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 border-2 ${
+                              categories.includes(category.name)
+                                ? `bg-gradient-to-r ${category.color} text-white border-white shadow-2xl scale-105`
+                                : 'bg-white/5 text-white border-white/30 hover:border-white/60 hover:bg-white/10'
+                            }`}
+                          >
+                            <div className="text-2xl md:text-3xl mb-1 md:mb-2">{category.emoji}</div>
+                            <div className="text-xs md:text-sm">{category.name}</div>
+                            {categories.includes(category.name) && (
+                              <div className="absolute -top-1 md:-top-2 -right-1 md:-right-2 bg-green-400 text-green-900 rounded-full w-6 h-6 md:w-8 md:h-8 flex items-center justify-center text-sm md:text-xl font-black">
+                                ✓
+                              </div>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4 md:gap-8 mb-6 md:mb-10">
+                      <div>
+                        <h2 className="mobile-text text-xl md:text-3xl font-bold mb-4 md:mb-6 text-pink-300 flex items-center gap-2 md:gap-3">
+                          ⚡ {t('difficultyTitle')}
+                        </h2>
+                        <div className="flex gap-2 md:gap-4">
+                          {[
+                            { key: 'easy', color: 'from-green-400 to-emerald-500', emoji: '😊' },
+                            { key: 'medium', color: 'from-yellow-400 to-orange-500', emoji: '🤔' },
+                            { key: 'hard', color: 'from-red-400 to-pink-500', emoji: '😤' }
+                          ].map(diff => (
+                            <button
+                              key={diff.key}
+                              onClick={() => setDifficulty(diff.key)}
+                              className={`mobile-button flex-1 px-3 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 border-2 ${
+                                difficulty === diff.key
+                                  ? `bg-gradient-to-r ${diff.color} text-white border-white shadow-2xl scale-105`
+                                  : 'bg-white/5 text-white border-white/30 hover:border-white/60 hover:bg-white/10'
+                              }`}
+                            >
+                              <div className="text-xl md:text-2xl mb-1">{diff.emoji}</div>
+                              <div className="text-sm md:text-base">{t(diff.key)}</div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <h2 className="mobile-text text-xl md:text-3xl font-bold mb-4 md:mb-6 text-cyan-300 flex items-center gap-2 md:gap-3">
+                          📊 {t('numQuestionsTitle')}
+                        </h2>
+                        <div className="grid grid-cols-2 gap-2 md:gap-4">
+                          {[5, 10, 15, 20].map(num => (
+                            <button
+                              key={num}
+                              onClick={() => setNumQuestions(num)}
+                              className={`mobile-button px-3 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 border-2 ${
+                                numQuestions === num
+                                  ? 'bg-gradient-to-r from-purple-400 to-pink-500 text-white border-white shadow-2xl scale-105'
+                                  : 'bg-white/5 text-white border-white/30 hover:border-white/60 hover:bg-white/10'
+                              }`}
+                            >
+                              <div className="text-xl md:text-2xl mb-1">🎲</div>
+                              <div className="text-sm md:text-base">{num}</div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={generateQuestions}
+                      className="w-full bg-gradient-to-r from-green-400 via-blue-400 to-purple-500 hover:from-green-500 hover:via-blue-500 hover:to-purple-600 text-white font-black py-4 md:py-6 px-6 md:px-8 rounded-xl md:rounded-2xl text-lg md:text-2xl transition-all duration-300 shadow-2xl transform hover:scale-105 mb-6 md:mb-8"
+                    >
+                      <span className="flex items-center justify-center gap-2 md:gap-3">
+                        🚀 {t('startGameButton')} 🚀
+                      </span>
+                    </button>
+                    
+                    <div className="text-center text-sm md:text-lg text-white/80 border-t border-white/20 pt-4 md:pt-6">
+                      <div className="flex items-center justify-center gap-2">
+                        By{' '}
+                        <a 
+                          href="https://x.com/sercansolmaz" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-cyan-300 hover:text-cyan-200 font-bold transition-colors duration-200 flex items-center gap-2 hover:scale-110 transform"
+                        >
+                          <svg className="w-4 h-4 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                          </svg>
+                          SercanSolmaz
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          if (gameState === 'loading') {
+            return (
+              <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white flex items-center justify-center p-4">
+                <div className="text-center">
+                  <div className="relative mb-6 md:mb-8">
+                    <div className="animate-spin w-16 h-16 md:w-24 md:h-24 border-6 md:border-8 border-cyan-400 border-t-transparent rounded-full mx-auto"></div>
+                    <div className="absolute inset-0 animate-ping w-16 h-16 md:w-24 md:h-24 border-3 md:border-4 border-pink-400 border-t-transparent rounded-full mx-auto"></div>
+                  </div>
+                  <h2 className="mobile-text text-2xl md:text-4xl font-bold text-red-400 mb-3 md:mb-4 animate-pulse">
+                    ⚡ {t('generatingQuestionsTitle')} ⚡
+                  </h2>
+                  <p className="mobile-text text-lg md:text-xl text-cyan-200">{t('generatingQuestionsSubtitle')}</p>
+                  <div className="mt-6 md:mt-8 flex justify-center gap-2">
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-pink-400 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          if (gameState === 'playing') {
+            const question = questions[currentQuestion];
+            const categoryInfo = availableCategories.find(cat => cat.name === question.category) || 
+                                { emoji: '❓', color: 'from-gray-400 to-gray-500' };
+            
+            return (
+              <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white p-4">
+                <div className="max-w-4xl mx-auto">
+                  <div className="mobile-flex flex flex-col md:flex-row justify-between items-center mb-6 md:mb-8 gap-4">
+                    <div className="bg-white/10 backdrop-blur-lg rounded-xl md:rounded-2xl px-4 md:px-6 py-2 md:py-3 border border-white/20">
+                      <div className="mobile-text text-cyan-300 font-bold text-lg md:text-xl flex items-center gap-2">
+                        🎯 {t('questionOf')} {currentQuestion + 1} {t('of')} {questions.length}
+                      </div>
+                    </div>
+                    <div className="bg-white/10 backdrop-blur-lg rounded-xl md:rounded-2xl px-4 md:px-6 py-2 md:py-3 border border-white/20">
+                      <div className="mobile-text text-yellow-300 font-bold text-lg md:text-xl flex items-center gap-2">
+                        ⭐ {t('score')} {score}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-white/10 backdrop-blur-lg rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-2xl border border-white/20">
+                    <div className="mb-6 md:mb-8">
+                      <div className={`inline-flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r ${categoryInfo.color} rounded-xl md:rounded-2xl text-white font-bold text-base md:text-lg mb-4 md:mb-6 shadow-lg`}>
+                        <span className="text-xl md:text-2xl">{categoryInfo.emoji}</span>
+                        <span className="mobile-text">{question.category}</span>
+                      </div>
+                      <h2 className="mobile-text text-xl md:text-3xl font-bold leading-relaxed text-white">
+                        {question.question}
+                      </h2>
+                    </div>
+
+                    <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
+                      {question.options.map((option, index) => {
+                        let buttonClass = 'w-full p-4 md:p-6 rounded-xl md:rounded-2xl font-bold text-left transition-all duration-300 transform hover:scale-102 border-2 ';
+                        let showCheckmark = false;
+                        
+                        if (showAnswer) {
+                          if (index === question.correctAnswer) {
+                            buttonClass += 'bg-gradient-to-r from-green-400 to-emerald-500 text-white border-green-300 shadow-2xl scale-102';
+                            showCheckmark = true;
+                          } else if (index === selectedAnswer && index !== question.correctAnswer) {
+                            buttonClass += 'bg-gradient-to-r from-red-400 to-pink-500 text-white border-red-300 shadow-xl';
+                          } else {
+                            buttonClass += 'bg-white/5 text-white/50 border-white/20';
+                          }
+                        } else {
+                          if (selectedAnswer === index) {
+                            buttonClass += 'bg-gradient-to-r from-purple-400 to-pink-500 text-white border-purple-300 shadow-2xl scale-102';
+                          } else {
+                            buttonClass += 'bg-white/5 text-white border-white/30 hover:border-white/60 hover:bg-white/10 hover:shadow-xl';
+                          }
+                        }
+                        
+                        return (
+                          <button
+                            key={index}
+                            onClick={() => !showAnswer && selectAnswer(index)}
+                            disabled={showAnswer}
+                            className={buttonClass}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3 md:gap-4">
+                                <span className="mobile-text text-lg md:text-2xl font-black bg-white/20 rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center">
+                                  {String.fromCharCode(65 + index)}
+                                </span>
+                                <span className="mobile-text text-base md:text-lg">{option}</span>
+                              </div>
+                              <div className="text-white text-2xl md:text-3xl w-6 h-6 md:w-8 md:h-8 flex items-center justify-center">
+                                {showCheckmark && index === question.correctAnswer && '✅'}
+                                {showAnswer && index === selectedAnswer && index !== question.correctAnswer && '❌'}
+                              </div>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <button
+                      onClick={nextQuestion}
+                      className="w-full bg-gradient-to-r from-orange-400 via-pink-400 to-purple-500 hover:from-orange-500 hover:via-pink-500 hover:to-purple-600 text-white font-black py-4 md:py-6 px-6 md:px-8 rounded-xl md:rounded-2xl text-lg md:text-2xl transition-all duration-300 shadow-2xl transform hover:scale-105"
+                    >
+                      <span className="flex items-center justify-center gap-2 md:gap-3">
+                        {!showAnswer 
+                          ? `🔍 ${t('checkAnswerButton')}`
+                          : currentQuestion + 1 === questions.length 
+                          ? `🏁 ${t('finishGameButton')}`
+                          : `➡️ ${t('nextQuestionButton')}`}
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          if (gameState === 'results') {
+            const percentage = Math.round((score / questions.length) * 100);
+            return (
+              <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white p-4">
+                <div className="max-w-4xl mx-auto text-center">
+                  <div className="mb-6 md:mb-8">
+                    <h1 className="mobile-title text-4xl md:text-6xl lg:text-7xl font-black mb-4 md:mb-6 bg-gradient-to-r from-yellow-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
+                      🏆 {t('resultsTitle')} 🏆
+                    </h1>
+                  </div>
+                  
+                  <div className="bg-white/10 backdrop-blur-lg rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-2xl border border-white/20 mb-6 md:mb-8">
+                    <div className="mobile-title text-4xl md:text-6xl lg:text-8xl font-black mb-4 md:mb-6 bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent">
+                      {score}/{questions.length}
+                    </div>
+                    <div className="mobile-text text-2xl md:text-4xl font-bold mb-6 md:mb-8 text-yellow-300">
+                      {percentage}% {t('correct')}
+                    </div>
+                    
+                    <div className="mobile-text text-xl md:text-3xl mb-8 md:mb-12 p-4 md:p-6 rounded-xl md:rounded-2xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-400/30">
+                      {percentage >= 80 ? t('excellentMessage') : 
+                       percentage >= 60 ? t('goodJobMessage') : 
+                       percentage >= 40 ? t('notBadMessage') : t('keepStudyingMessage')}
+                    </div>
+
+                    <div className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left max-h-64 md:max-h-96 overflow-y-auto">
+                      {questions.map((question, index) => {
+                        const userAnswer = answers[index];
+                        const isCorrect = userAnswer && userAnswer.isCorrect;
+                        const categoryInfo = availableCategories.find(cat => cat.name === question.category) || 
+                                           { emoji: '❓', color: 'from-gray-400 to-gray-500' };
+                        
+                        return (
+                          <div key={index} className={`p-4 md:p-6 rounded-xl md:rounded-2xl border-2 ${
+                            isCorrect 
+                              ? 'border-green-400 bg-gradient-to-r from-green-900/30 to-emerald-900/30' 
+                              : 'border-red-400 bg-gradient-to-r from-red-900/30 to-pink-900/30'
+                          }`}>
+                            <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-3">
+                              <span className="text-xl md:text-2xl">{categoryInfo.emoji}</span>
+                              <span className="mobile-text font-bold text-base md:text-lg">{question.question}</span>
+                            </div>
+                            <div className="mobile-text text-base md:text-lg">
+                              <div className={`mb-1 md:mb-2 ${isCorrect ? 'text-green-300' : 'text-red-300'}`}>
+                                {isCorrect ? '✅' : '❌'} {t('yourAnswer')} {question.options[userAnswer.selectedAnswer]}
+                              </div>
+                              {!isCorrect && (
+                                <div className="text-green-300">
+                                  ✅ {t('correctAnswer')} {question.options[question.correctAnswer]}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    <button
+                      onClick={resetGame}
+                      className="w-full bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 hover:from-cyan-500 hover:via-blue-500 hover:to-purple-600 text-white font-black py-4 md:py-6 px-6 md:px-8 rounded-xl md:rounded-2xl text-lg md:text-2xl transition-all duration-300 shadow-2xl transform hover:scale-105 mb-6 md:mb-8"
+                    >
+                      <span className="flex items-center justify-center gap-2 md:gap-3">
+                        🔄 {t('playAgainButton')} 🔄
+                      </span>
+                    </button>
+                    
+                    <div className="text-center text-sm md:text-lg text-white/80 border-t border-white/20 pt-4 md:pt-6">
+                      <div className="flex items-center justify-center gap-2">
+                        By{' '}
+                        <a 
+                          href="https://x.com/sercansolmaz" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-cyan-300 hover:text-cyan-200 font-bold transition-colors duration-200 flex items-center gap-2 hover:scale-110 transform"
+                        >
+                          <svg className="w-4 h-4 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                          </svg>
+                          SercanSolmaz
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+        };
+
+        ReactDOM.render(<TriviaGame />, document.getElementById('root'));
+    </script>
+</body>
+</html>
