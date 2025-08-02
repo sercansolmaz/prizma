@@ -104,7 +104,7 @@
         /* Mobil uyumluluk için ek stiller */
         @media (max-width: 768px) {
             .mobile-title {
-                font-size: 2.5rem !important;
+                font-size: 2rem !important;
                 line-height: 1.2 !important;
             }
             
@@ -137,7 +137,7 @@
 
         @media (max-width: 480px) {
             .mobile-title {
-                font-size: 2rem !important;
+                font-size: 1.5rem !important;
             }
             
             .mobile-grid {
@@ -176,208 +176,9 @@
             filter: drop-shadow(0 0 20px rgba(255, 107, 107, 0.6));
         }
 
-        /* Çark sistemi için CSS */
-        .wheel-container {
-            position: relative;
-            width: 250px;
-            height: 250px;
-            margin: 0 auto;
-        }
 
-        @media (min-width: 768px) {
-            .wheel-container {
-                width: 300px;
-                height: 300px;
-            }
-        }
 
-        .wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            position: relative;
-            overflow: hidden;
-            transition: transform 3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
-        }
 
-        .wheel-spinning {
-            animation: spin 3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .wheel-segment {
-            position: absolute;
-            width: 50%;
-            height: 50%;
-            transform-origin: 100% 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 10px;
-            color: white;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        @media (min-width: 768px) {
-            .wheel-segment {
-                font-size: 12px;
-            }
-        }
-
-        .wheel-segment:hover {
-            transform: scale(1.05);
-            z-index: 10;
-        }
-
-        .wheel-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
-            z-index: 100;
-        }
-
-        @media (min-width: 768px) {
-            .wheel-center {
-                width: 60px;
-                height: 60px;
-                font-size: 24px;
-            }
-        }
-
-        .wheel-center:hover {
-            transform: translate(-50%, -50%) scale(1.1);
-        }
-
-        .wheel-pointer {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 30px solid #ff6b6b;
-            z-index: 200;
-        }
-
-        .random-mode {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
-            background-size: 400% 400%;
-            animation: gradientShift 2s ease infinite;
-        }
-
-        .selected-category {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4) !important;
-            transform: scale(1.1) !important;
-            box-shadow: 0 0 20px rgba(255, 107, 107, 0.8) !important;
-        }
-
-        /* Yeni rastgele kategori seçim sistemi */
-        .random-category-system {
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .category-display {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 15px 0;
-            text-align: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
-            transform: scale(1);
-            transition: all 0.3s ease;
-        }
-
-        .category-display.selected {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.5);
-        }
-
-        .random-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 15px 0;
-        }
-
-        .random-btn {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            border: none;
-            border-radius: 10px;
-            padding: 12px 20px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
-        }
-
-        .random-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
-        }
-
-        .random-btn:active {
-            transform: translateY(0);
-        }
-
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .category-item {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .category-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-        }
-
-        .category-item.selected {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            border-color: #ff6b6b;
-            transform: scale(1.05);
-        }
     </style>
 </head>
 <body>
@@ -448,9 +249,7 @@
           const [score, setScore] = useState(0);
           const [answers, setAnswers] = useState([]);
           const [showAnswer, setShowAnswer] = useState(false);
-          const [showRandomSystem, setShowRandomSystem] = useState(false);
-          const [selectedRandomCategory, setSelectedRandomCategory] = useState(null);
-          const [isSpinning, setIsSpinning] = useState(false);
+
 
           const availableCategories = [
             { name: 'Türkiye Tarihi', emoji: '🏛️', color: 'from-amber-400 to-orange-500' },
@@ -479,116 +278,7 @@
             );
           };
 
-          const spinRandomCategory = () => {
-            setIsSpinning(true);
-            setSelectedRandomCategory(null);
-            
-            // Rastgele animasyon süresi (2-4 saniye)
-            const spinDuration = 2000 + Math.random() * 2000;
-            
-            setTimeout(() => {
-              setIsSpinning(false);
-              
-              // Rastgele kategori seç
-              const randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
-              setSelectedRandomCategory(randomCategory);
-              
-              // Seçilen kategoriyi otomatik olarak ekle
-              if (!categories.includes(randomCategory.name)) {
-                setCategories(prev => [...prev, randomCategory.name]);
-              }
-            }, spinDuration);
-          };
 
-          const selectRandomCategory = () => {
-            const randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
-            setSelectedRandomCategory(randomCategory);
-            
-            if (!categories.includes(randomCategory.name)) {
-              setCategories(prev => [...prev, randomCategory.name]);
-            }
-          };
-
-          const selectMultipleRandom = (count) => {
-            const shuffled = [...availableCategories].sort(() => Math.random() - 0.5);
-            const selected = shuffled.slice(0, count);
-            
-            selected.forEach(category => {
-              if (!categories.includes(category.name)) {
-                setCategories(prev => [...prev, category.name]);
-              }
-            });
-            
-            setSelectedRandomCategory(selected[0]);
-          };
-
-          const RandomCategorySystem = () => {
-            return (
-              <div className="random-category-system">
-                <h3 className="text-xl font-bold text-cyan-300 mb-4 text-center">🎯 Rastgele Kategori Seç</h3>
-                
-                {/* Seçilen kategori gösterimi */}
-                {selectedRandomCategory && (
-                  <div className={`category-display ${isSpinning ? 'animate-pulse' : 'selected'}`}>
-                    <div className="text-3xl mb-2">{selectedRandomCategory.emoji}</div>
-                    <div className="text-lg">{selectedRandomCategory.name}</div>
-                  </div>
-                )}
-                
-                {/* Rastgele butonlar */}
-                <div className="random-buttons">
-                  <button 
-                    className="random-btn"
-                    onClick={spinRandomCategory}
-                    disabled={isSpinning}
-                  >
-                    {isSpinning ? '🎲 Döndürülüyor...' : '🎲 Tek Kategori'}
-                  </button>
-                  
-                  <button 
-                    className="random-btn"
-                    onClick={() => selectMultipleRandom(3)}
-                    disabled={isSpinning}
-                  >
-                    🎯 3 Kategori
-                  </button>
-                  
-                  <button 
-                    className="random-btn"
-                    onClick={() => selectMultipleRandom(5)}
-                    disabled={isSpinning}
-                  >
-                    🎯 5 Kategori
-                  </button>
-                  
-                  <button 
-                    className="random-btn"
-                    onClick={() => selectMultipleRandom(8)}
-                    disabled={isSpinning}
-                  >
-                    🎯 8 Kategori
-                  </button>
-                </div>
-                
-                {/* Tüm kategoriler grid */}
-                <div className="mt-6">
-                  <h4 className="text-lg font-bold text-yellow-300 mb-3 text-center">📋 Tüm Kategoriler</h4>
-                  <div className="category-grid">
-                    {availableCategories.map(category => (
-                      <div
-                        key={category.name}
-                        className={`category-item ${categories.includes(category.name) ? 'selected' : ''}`}
-                        onClick={() => toggleCategory(category.name)}
-                      >
-                        <div className="text-2xl mb-1">{category.emoji}</div>
-                        <div className="text-sm">{category.name}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            );
-          };
 
           const generateQuestions = async () => {
             if (categories.length === 0) {
@@ -679,7 +369,7 @@
                 <div className="max-w-4xl mx-auto">
                   <div className="text-center mt-4 md:mt-8 mb-8 md:mb-12">
                     <div className="relative">
-                      <h1 className="mobile-title text-4xl md:text-6xl lg:text-8xl font-black mb-4 prizma-text prizma-glow">
+                      <h1 className="mobile-title text-3xl md:text-5xl lg:text-7xl font-black mb-4 prizma-text prizma-glow">
                         ✨ {t('triviaTitle')} ✨
                       </h1>
                       <div className="absolute -top-2 md:-top-4 -right-2 md:-right-4 text-3xl md:text-6xl animate-bounce">🎯</div>
@@ -697,20 +387,7 @@
                       </h2>
                       
                       {/* Rastgele Kategori Sistemi */}
-                      <div className="mb-8 text-center">
-                        <button
-                          onClick={() => setShowRandomSystem(!showRandomSystem)}
-                          className="mb-4 bg-gradient-to-r from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg transform hover:scale-105"
-                        >
-                          {showRandomSystem ? '🎯 Sistemi Gizle' : '🎯 Rastgele Sistem'}
-                        </button>
-                        
-                        {showRandomSystem && (
-                          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
-                            <RandomCategorySystem />
-                          </div>
-                        )}
-                      </div>
+
                       
                       <div className="mobile-grid grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
                         {availableCategories.map(category => (
