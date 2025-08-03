@@ -176,6 +176,190 @@
             filter: drop-shadow(0 0 20px rgba(255, 107, 107, 0.6));
         }
 
+        /* Ses efektleri için */
+        .sound-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .sound-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* Başarı animasyonları */
+        .correct-answer {
+            animation: correctPulse 0.6s ease-in-out;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); background: linear-gradient(45deg, #4ade80, #22c55e); }
+            100% { transform: scale(1); }
+        }
+
+        .incorrect-answer {
+            animation: incorrectShake 0.6s ease-in-out;
+        }
+
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Skor animasyonu */
+        .score-animation {
+            animation: scoreBounce 0.8s ease-in-out;
+        }
+
+        @keyframes scoreBounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Konfeti animasyonu */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff);
+            animation: confettiFall 3s linear forwards;
+        }
+
+                 @keyframes confettiFall {
+             0% {
+                 transform: translateY(-100vh) rotate(0deg);
+                 opacity: 1;
+             }
+             100% {
+                 transform: translateY(100vh) rotate(720deg);
+                 opacity: 0;
+             }
+         }
+
+         /* Timer Stilleri */
+         .timer-container {
+             position: relative;
+             width: 80px;
+             height: 80px;
+         }
+
+         .timer-circle {
+             width: 100%;
+             height: 100%;
+             border-radius: 50%;
+             background: conic-gradient(from 0deg, #ef4444, #f97316, #eab308, #22c55e);
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             position: relative;
+             transition: all 0.3s ease;
+         }
+
+         .timer-circle::before {
+             content: '';
+             position: absolute;
+             width: 70%;
+             height: 70%;
+             background: rgba(0, 0, 0, 0.8);
+             border-radius: 50%;
+             backdrop-filter: blur(10px);
+         }
+
+         .timer-text {
+             position: relative;
+             z-index: 1;
+             font-weight: bold;
+             color: white;
+             font-size: 1.2rem;
+         }
+
+         .timer-warning {
+             animation: timerPulse 1s infinite;
+         }
+
+         @keyframes timerPulse {
+             0%, 100% { transform: scale(1); }
+             50% { transform: scale(1.1); }
+         }
+
+         .timer-critical {
+             animation: timerShake 0.5s infinite;
+             background: conic-gradient(from 0deg, #dc2626, #b91c1c) !important;
+         }
+
+         @keyframes timerShake {
+             0%, 100% { transform: translateX(0); }
+             25% { transform: translateX(-2px); }
+             75% { transform: translateX(2px); }
+         }
+
+         /* Başarı Popup Stilleri */
+         .achievement-popup {
+             position: fixed;
+             top: 50%;
+             left: 50%;
+             transform: translate(-50%, -50%);
+             z-index: 2000;
+             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+             border: 3px solid #ffd700;
+             border-radius: 20px;
+             padding: 2rem;
+             text-align: center;
+             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+             animation: achievementSlideIn 0.5s ease-out;
+         }
+
+         @keyframes achievementSlideIn {
+             0% {
+                 transform: translate(-50%, -50%) scale(0.5);
+                 opacity: 0;
+             }
+             100% {
+                 transform: translate(-50%, -50%) scale(1);
+                 opacity: 1;
+             }
+         }
+
+         .achievement-emoji {
+             font-size: 4rem;
+             margin-bottom: 1rem;
+             animation: achievementBounce 2s infinite;
+         }
+
+         @keyframes achievementBounce {
+             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+             40% { transform: translateY(-10px); }
+             60% { transform: translateY(-5px); }
+         }
+
+         .achievement-title {
+             font-size: 1.5rem;
+             font-weight: bold;
+             color: #ffd700;
+             margin-bottom: 0.5rem;
+         }
+
+         .achievement-description {
+             color: white;
+             font-size: 1rem;
+         }
+
 
 
 
@@ -249,6 +433,108 @@
           const [score, setScore] = useState(0);
           const [answers, setAnswers] = useState([]);
           const [showAnswer, setShowAnswer] = useState(false);
+          const [soundEnabled, setSoundEnabled] = useState(true);
+          const [showConfetti, setShowConfetti] = useState(false);
+          const [timeLeft, setTimeLeft] = useState(0);
+          const [timerId, setTimerId] = useState(null);
+          const [timerEnabled, setTimerEnabled] = useState(true);
+          const [highScores, setHighScores] = useState([]);
+          const [totalGamesPlayed, setTotalGamesPlayed] = useState(0);
+          const [achievements, setAchievements] = useState([]);
+          const [showAchievement, setShowAchievement] = useState(null);
+          const [theme, setTheme] = useState('default');
+          const [highContrast, setHighContrast] = useState(false);
+          
+          // AudioContext'i tek seferde oluştur (memory leak'i önlemek için)
+          const [audioContext] = useState(() => {
+            try {
+              return new (window.AudioContext || window.webkitAudioContext)();
+            } catch (e) {
+              console.warn('AudioContext not supported');
+              return null;
+            }
+          });
+
+          // Local Storage fonksiyonları
+          const saveToLocalStorage = (key, value) => {
+            try {
+              localStorage.setItem(`prizma_${key}`, JSON.stringify(value));
+            } catch (error) {
+              console.warn('Local storage kaydedilemedi:', error);
+            }
+          };
+
+          const loadFromLocalStorage = (key, defaultValue) => {
+            try {
+              const saved = localStorage.getItem(`prizma_${key}`);
+              return saved ? JSON.parse(saved) : defaultValue;
+            } catch (error) {
+              console.warn('Local storage okunamadı:', error);
+              return defaultValue;
+            }
+          };
+
+          // Tema tanımları
+          const themes = {
+            default: {
+              name: 'Varsayılan',
+              emoji: '🌈',
+              background: 'from-indigo-900 via-purple-900 to-pink-900',
+              primary: 'from-blue-400 to-indigo-500',
+              secondary: 'from-purple-400 to-pink-500',
+              accent: 'from-green-400 to-blue-500'
+            },
+            dark: {
+              name: 'Gece Modu',
+              emoji: '🌙',
+              background: 'from-gray-900 via-black to-gray-900',
+              primary: 'from-gray-600 to-gray-700',
+              secondary: 'from-gray-700 to-gray-800',
+              accent: 'from-indigo-500 to-purple-600'
+            },
+            colorblind: {
+              name: 'Renk Körleri',
+              emoji: '👁️',
+              background: 'from-blue-900 via-teal-900 to-cyan-900',
+              primary: 'from-blue-400 to-cyan-500',
+              secondary: 'from-teal-400 to-blue-500',
+              accent: 'from-cyan-400 to-teal-500'
+            },
+            ocean: {
+              name: 'Okyanus',
+              emoji: '🌊',
+              background: 'from-blue-900 via-teal-800 to-cyan-900',
+              primary: 'from-blue-400 to-teal-500',
+              secondary: 'from-teal-400 to-cyan-500',
+              accent: 'from-cyan-400 to-blue-500'
+            }
+          };
+
+          // Başarı tanımları
+          const achievementDefinitions = [
+            { id: 'first_game', name: 'İlk Adım', description: 'İlk oyununu tamamla', emoji: '🎯', requirement: (stats) => stats.gamesPlayed >= 1 },
+            { id: 'perfect_score', name: 'Mükemmel!', description: 'Tüm soruları doğru cevapla', emoji: '💯', requirement: (stats) => stats.perfectGames >= 1 },
+            { id: 'speed_demon', name: 'Hız Canavarı', description: '10 saniyede soru cevapla', emoji: '⚡', requirement: (stats) => stats.fastAnswers >= 5 },
+            { id: 'streak_master', name: 'Seri Ustası', description: 'Üst üste 10 doğru cevap', emoji: '🔥', requirement: (stats) => stats.bestStreak >= 10 },
+            { id: 'category_master', name: 'Kategori Uzmanı', description: 'Bir kategoride %90+ al', emoji: '🎓', requirement: (stats) => stats.categoryMastery >= 1 },
+            { id: 'veteran', name: 'Veteran', description: '50 oyun tamamla', emoji: '🏆', requirement: (stats) => stats.gamesPlayed >= 50 },
+            { id: 'knowledge_seeker', name: 'Bilgi Avcısı', description: 'Tüm kategorileri dene', emoji: '📚', requirement: (stats) => stats.categoriesTried >= 16 },
+            { id: 'time_master', name: 'Zaman Ustası', description: 'Timer açıkken 10 oyun kazan', emoji: '⏰', requirement: (stats) => stats.timerWins >= 10 }
+          ];
+
+          // Component mount edildiğinde tercihleri yükle
+          React.useEffect(() => {
+            setSoundEnabled(loadFromLocalStorage('soundEnabled', true));
+            setCategories(loadFromLocalStorage('lastCategories', []));
+            setDifficulty(loadFromLocalStorage('lastDifficulty', 'medium'));
+            setNumQuestions(loadFromLocalStorage('lastNumQuestions', 5));
+            setTimerEnabled(loadFromLocalStorage('timerEnabled', true));
+            setHighScores(loadFromLocalStorage('highScores', []));
+            setTotalGamesPlayed(loadFromLocalStorage('totalGamesPlayed', 0));
+            setAchievements(loadFromLocalStorage('achievements', []));
+            setTheme(loadFromLocalStorage('theme', 'default'));
+            setHighContrast(loadFromLocalStorage('highContrast', false));
+          }, []);
 
 
           const availableCategories = [
@@ -271,12 +557,157 @@
           ];
 
           const toggleCategory = (categoryName) => {
-            setCategories(prev => 
-              prev.includes(categoryName) 
+            setCategories(prev => {
+              const newCategories = prev.includes(categoryName) 
                 ? prev.filter(c => c !== categoryName)
-                : [...prev, categoryName]
-            );
+                : [...prev, categoryName];
+              saveToLocalStorage('lastCategories', newCategories);
+              return newCategories;
+            });
           };
+
+          // Ses efektleri (optimize edilmiş - memory leak yok)
+          const playSound = async (type) => {
+            if (!soundEnabled || !audioContext) return;
+            
+            try {
+              // iOS Safari için AudioContext'i resume et
+              if (audioContext.state === 'suspended') {
+                await audioContext.resume();
+              }
+              
+              const oscillator = audioContext.createOscillator();
+              const gainNode = audioContext.createGain();
+              
+              oscillator.connect(gainNode);
+              gainNode.connect(audioContext.destination);
+              
+              switch(type) {
+                case 'correct':
+                  oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                  oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.15);
+                  gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+                  oscillator.start(audioContext.currentTime);
+                  oscillator.stop(audioContext.currentTime + 0.15);
+                  break;
+                case 'incorrect':
+                  oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+                  oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.25);
+                  gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
+                  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.25);
+                  oscillator.start(audioContext.currentTime);
+                  oscillator.stop(audioContext.currentTime + 0.25);
+                  break;
+                case 'click':
+                  oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+                  oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.05);
+                  gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
+                  oscillator.start(audioContext.currentTime);
+                  oscillator.stop(audioContext.currentTime + 0.05);
+                  break;
+              }
+            } catch (error) {
+              console.warn('Ses çalınırken hata:', error);
+            }
+          };
+
+          // Konfeti efekti
+          const createConfetti = () => {
+            setShowConfetti(true);
+            setTimeout(() => setShowConfetti(false), 3000);
+          };
+
+          // Animasyon sınıfları
+          const getAnswerClass = (index, isCorrect, isSelected) => {
+            if (!showAnswer) return '';
+            if (index === questions[currentQuestion].correctAnswer) return 'correct-answer';
+            if (index === selectedAnswer && !isCorrect) return 'incorrect-answer';
+            return '';
+          };
+
+          // Timer fonksiyonları
+          const getTimeLimit = (difficulty) => {
+            const timeMap = { easy: 30, medium: 20, hard: 15 };
+            return timeMap[difficulty] || 20;
+          };
+
+          const startTimer = () => {
+            if (!timerEnabled) return;
+            
+            const timeLimit = getTimeLimit(difficulty);
+            setTimeLeft(timeLimit);
+            
+            const id = setInterval(() => {
+              setTimeLeft(prev => {
+                if (prev <= 1) {
+                  clearInterval(id);
+                  handleTimeUp();
+                  return 0;
+                }
+                return prev - 1;
+              });
+            }, 1000);
+            
+            setTimerId(id);
+          };
+
+          const stopTimer = () => {
+            if (timerId) {
+              clearInterval(timerId);
+              setTimerId(null);
+            }
+          };
+
+          const handleTimeUp = () => {
+            if (!showAnswer) {
+              setSelectedAnswer(-1); // Zaman doldu işareti
+              setShowAnswer(true);
+              playSound('incorrect');
+            }
+          };
+
+          // Başarı kontrolü
+          const checkAchievements = (gameStats) => {
+            const newAchievements = [];
+            
+            achievementDefinitions.forEach(def => {
+              if (!achievements.includes(def.id) && def.requirement(gameStats)) {
+                newAchievements.push(def.id);
+                showAchievementPopup(def);
+              }
+            });
+            
+            if (newAchievements.length > 0) {
+              const updatedAchievements = [...achievements, ...newAchievements];
+              setAchievements(updatedAchievements);
+              saveToLocalStorage('achievements', updatedAchievements);
+            }
+          };
+
+          // Başarı popup'ı göster
+          const showAchievementPopup = (achievement) => {
+            setShowAchievement(achievement);
+            setTimeout(() => {
+              setShowAchievement(null);
+            }, 4000);
+          };
+
+          // Tema değiştirme
+          const changeTheme = (newTheme) => {
+            setTheme(newTheme);
+            saveToLocalStorage('theme', newTheme);
+          };
+
+          const toggleHighContrast = () => {
+            const newValue = !highContrast;
+            setHighContrast(newValue);
+            saveToLocalStorage('highContrast', newValue);
+          };
+
+          // Aktif tema almak
+          const currentTheme = themes[theme] || themes.default;
 
 
 
@@ -286,6 +717,7 @@
               return;
             }
 
+            playSound('click');
             setGameState('loading');
             
             // Gerçek soru veritabanından sorular seç
@@ -313,21 +745,34 @@
               setCurrentQuestion(0);
               setScore(0);
               setAnswers([]);
+              
+              // Timer'ı başlat
+              setTimeout(() => {
+                startTimer();
+              }, 500);
             }, 2000);
           };
 
           const selectAnswer = (answerIndex) => {
             setSelectedAnswer(answerIndex);
+            playSound('click');
           };
 
           const nextQuestion = () => {
-            if (selectedAnswer === null) {
+            if (selectedAnswer === null && selectedAnswer !== -1) {
               alert(t('selectAnswerAlert'));
               return;
             }
 
             if (!showAnswer) {
+              stopTimer();
               setShowAnswer(true);
+              const isCorrect = selectedAnswer === questions[currentQuestion].correctAnswer;
+              if (isCorrect) {
+                playSound('correct');
+              } else {
+                playSound('incorrect');
+              }
               return;
             }
 
@@ -335,25 +780,98 @@
             const newAnswers = [...answers, {
               questionIndex: currentQuestion,
               selectedAnswer,
-              isCorrect
+              isCorrect,
+              timeLeft: timeLeft
             }];
             
             setAnswers(newAnswers);
             
             if (isCorrect) {
-              setScore(score + 1);
+              setScore(prevScore => {
+                const newScore = prevScore + 1;
+                // Yüksek skor için konfeti
+                if (newScore >= questions.length * 0.8) {
+                  createConfetti();
+                }
+                return newScore;
+              });
             }
             
             if (currentQuestion + 1 < questions.length) {
               setCurrentQuestion(currentQuestion + 1);
               setSelectedAnswer(null);
               setShowAnswer(false);
+              // Sonraki soru için timer'ı başlat
+              setTimeout(() => {
+                startTimer();
+              }, 500);
             } else {
+              stopTimer();
               setGameState('results');
+              
+              // İstatistikleri güncelle
+              const finalScore = score + (isCorrect ? 1 : 0);
+              const percentage = Math.round((finalScore / questions.length) * 100);
+              const newGamesPlayed = totalGamesPlayed + 1;
+              
+              setTotalGamesPlayed(newGamesPlayed);
+              saveToLocalStorage('totalGamesPlayed', newGamesPlayed);
+              
+              // Yüksek skor kontrolü
+              const gameResult = {
+                score: finalScore,
+                total: questions.length,
+                percentage,
+                difficulty,
+                categories: categories.slice(),
+                date: new Date().toISOString(),
+                timeEnabled: timerEnabled
+              };
+              
+              const newHighScores = [...highScores, gameResult]
+                .sort((a, b) => b.percentage - a.percentage)
+                .slice(0, 10); // En iyi 10 skoru sakla
+              
+              setHighScores(newHighScores);
+              saveToLocalStorage('highScores', newHighScores);
+              
+              // Başarı kontrolü için istatistikler hazırla
+              const gameStats = {
+                gamesPlayed: newGamesPlayed,
+                perfectGames: finalScore === questions.length ? (loadFromLocalStorage('perfectGames', 0) + 1) : loadFromLocalStorage('perfectGames', 0),
+                fastAnswers: loadFromLocalStorage('fastAnswers', 0) + answers.filter(a => a.timeLeft > getTimeLimit(difficulty) - 10).length,
+                bestStreak: Math.max(loadFromLocalStorage('bestStreak', 0), Math.max(...answers.map((_, i) => {
+                  let streak = 0;
+                  for (let j = i; j < answers.length && answers[j].isCorrect; j++) {
+                    streak++;
+                  }
+                  return streak;
+                }))),
+                categoryMastery: loadFromLocalStorage('categoryMastery', 0) + (percentage >= 90 ? 1 : 0),
+                categoriesTried: new Set([...loadFromLocalStorage('categoriesTried', []), ...categories]).size,
+                timerWins: timerEnabled && percentage >= 70 ? (loadFromLocalStorage('timerWins', 0) + 1) : loadFromLocalStorage('timerWins', 0)
+              };
+              
+              // İstatistikleri kaydet
+              saveToLocalStorage('perfectGames', gameStats.perfectGames);
+              saveToLocalStorage('fastAnswers', gameStats.fastAnswers);
+              saveToLocalStorage('bestStreak', gameStats.bestStreak);
+              saveToLocalStorage('categoryMastery', gameStats.categoryMastery);
+              saveToLocalStorage('categoriesTried', Array.from(new Set([...loadFromLocalStorage('categoriesTried', []), ...categories])));
+              saveToLocalStorage('timerWins', gameStats.timerWins);
+              
+              // Başarıları kontrol et
+              checkAchievements(gameStats);
+              
+              // Oyun sonu konfeti
+              if (finalScore >= questions.length * 0.8) {
+                createConfetti();
+              }
             }
           };
 
           const resetGame = () => {
+            stopTimer();
             setGameState('setup');
             setCurrentQuestion(0);
             setSelectedAnswer(null);
@@ -361,11 +879,12 @@
             setAnswers([]);
             setQuestions([]);
             setShowAnswer(false);
+            setTimeLeft(0);
           };
 
           if (gameState === 'setup') {
             return (
-              <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white p-4">
+              <div className={`min-h-screen bg-gradient-to-br ${currentTheme.background} text-white p-4 ${highContrast ? 'contrast-125 brightness-110' : ''}`}>
                 <div className="max-w-4xl mx-auto">
                   <div className="text-center mt-4 md:mt-8 mb-8 md:mb-12">
                     <div className="relative">
@@ -379,6 +898,19 @@
                       {t('triviaSubtitle')}
                     </p>
                   </div>
+
+              {/* Ses Kontrolü */}
+              <button
+                onClick={() => {
+                  const newValue = !soundEnabled;
+                  setSoundEnabled(newValue);
+                  saveToLocalStorage('soundEnabled', newValue);
+                }}
+                className="sound-toggle"
+                title={soundEnabled ? "Sesi Kapat" : "Sesi Aç"}
+              >
+                {soundEnabled ? "🔊" : "🔇"}
+              </button>
 
                   <div className="bg-white/10 backdrop-blur-lg rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-2xl border border-white/20">
                     <div className="mb-6 md:mb-10">
@@ -425,7 +957,10 @@
                           ].map(diff => (
                             <button
                               key={diff.key}
-                              onClick={() => setDifficulty(diff.key)}
+                              onClick={() => {
+                              setDifficulty(diff.key);
+                              saveToLocalStorage('lastDifficulty', diff.key);
+                            }}
                               className={`mobile-button flex-1 px-3 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 border-2 ${
                                 difficulty === diff.key
                                   ? `bg-gradient-to-r ${diff.color} text-white border-white shadow-2xl scale-105`
@@ -440,6 +975,36 @@
                       </div>
 
                       <div>
+                        <h2 className="mobile-text text-xl md:text-3xl font-bold mb-4 md:mb-6 text-purple-300 flex items-center gap-2 md:gap-3">
+                          ⏰ Timer Ayarı
+                        </h2>
+                        <div className="flex gap-2 md:gap-4">
+                          <button
+                            onClick={() => {
+                              const newValue = !timerEnabled;
+                              setTimerEnabled(newValue);
+                              saveToLocalStorage('timerEnabled', newValue);
+                            }}
+                            className={`mobile-button flex-1 px-3 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 border-2 ${
+                              timerEnabled
+                                ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white border-white shadow-2xl scale-105'
+                                : 'bg-white/5 text-white border-white/30 hover:border-white/60 hover:bg-white/10'
+                            }`}
+                          >
+                            <div className="text-xl md:text-2xl mb-1">{timerEnabled ? '⏰' : '⏸️'}</div>
+                            <div className="text-sm md:text-base">{timerEnabled ? 'Açık' : 'Kapalı'}</div>
+                          </button>
+                          {timerEnabled && (
+                            <div className="text-xs md:text-sm text-white/70 flex items-center">
+                              Kolay: 30s<br/>Orta: 20s<br/>Zor: 15s
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4 md:gap-8 mb-6 md:mb-10">
+                      <div>
                         <h2 className="mobile-text text-xl md:text-3xl font-bold mb-4 md:mb-6 text-cyan-300 flex items-center gap-2 md:gap-3">
                           📊 {t('numQuestionsTitle')}
                         </h2>
@@ -447,7 +1012,10 @@
                           {[5, 10, 15, 20].map(num => (
                             <button
                               key={num}
-                              onClick={() => setNumQuestions(num)}
+                              onClick={() => {
+                              setNumQuestions(num);
+                              saveToLocalStorage('lastNumQuestions', num);
+                            }}
                               className={`mobile-button px-3 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 border-2 ${
                                 numQuestions === num
                                   ? 'bg-gradient-to-r from-purple-400 to-pink-500 text-white border-white shadow-2xl scale-105'
@@ -462,9 +1030,96 @@
                       </div>
                     </div>
 
+                    {/* Tema Ayarları */}
+                    <div className="mb-6 md:mb-8">
+                      <h2 className="mobile-text text-xl md:text-2xl font-bold mb-4 text-indigo-300 flex items-center gap-2">
+                        🎨 Tema Seçimi
+                      </h2>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-4">
+                        {Object.entries(themes).map(([key, themeData]) => (
+                          <button
+                            key={key}
+                            onClick={() => changeTheme(key)}
+                            className={`mobile-button px-3 py-3 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 border-2 ${
+                              theme === key
+                                ? `bg-gradient-to-r ${themeData.accent} text-white border-white shadow-2xl scale-105`
+                                : 'bg-white/5 text-white border-white/30 hover:border-white/60 hover:bg-white/10'
+                            }`}
+                          >
+                            <div className="text-lg mb-1">{themeData.emoji}</div>
+                            <div className="text-xs">{themeData.name}</div>
+                          </button>
+                        ))}
+                      </div>
+                      
+                      {/* Erişilebilirlik */}
+                      <div className="flex gap-2">
+                        <button
+                          onClick={toggleHighContrast}
+                          className={`mobile-button flex-1 px-3 py-2 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 border-2 ${
+                            highContrast
+                              ? 'bg-gradient-to-r from-yellow-400 to-orange-500 text-black border-white shadow-2xl scale-105'
+                              : 'bg-white/5 text-white border-white/30 hover:border-white/60 hover:bg-white/10'
+                          }`}
+                        >
+                          <div className="text-sm">🔆 Yüksek Kontrast</div>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* İstatistik Paneli */}
+                    <div className="mb-6 md:mb-8">
+                      <h2 className="mobile-text text-xl md:text-2xl font-bold mb-4 text-green-300 flex items-center gap-2">
+                        📈 İstatistikler
+                      </h2>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
+                        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-3 md:p-4 border border-white/20 text-center">
+                          <div className="text-xl md:text-2xl font-bold text-yellow-300">{totalGamesPlayed}</div>
+                          <div className="text-xs md:text-sm text-white/70">Toplam Oyun</div>
+                        </div>
+                        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-3 md:p-4 border border-white/20 text-center">
+                          <div className="text-xl md:text-2xl font-bold text-green-300">{loadFromLocalStorage('perfectGames', 0)}</div>
+                          <div className="text-xs md:text-sm text-white/70">Mükemmel Skor</div>
+                        </div>
+                        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-3 md:p-4 border border-white/20 text-center">
+                          <div className="text-xl md:text-2xl font-bold text-purple-300">{achievements.length}</div>
+                          <div className="text-xs md:text-sm text-white/70">Başarı</div>
+                        </div>
+                        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-3 md:p-4 border border-white/20 text-center">
+                          <div className="text-xl md:text-2xl font-bold text-blue-300">{loadFromLocalStorage('bestStreak', 0)}</div>
+                          <div className="text-xs md:text-sm text-white/70">En İyi Seri</div>
+                        </div>
+                      </div>
+                      
+                      {/* Yüksek Skorlar */}
+                      {highScores.length > 0 && (
+                        <div className="mt-4">
+                          <h3 className="text-lg font-bold mb-3 text-cyan-300 flex items-center gap-2">
+                            🏆 En İyi Skorlar
+                          </h3>
+                          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-3 border border-white/20 max-h-32 overflow-y-auto">
+                            {highScores.slice(0, 5).map((score, index) => (
+                              <div key={index} className="flex justify-between items-center py-1 border-b border-white/10 last:border-b-0">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-yellow-400 font-bold text-sm">#{index + 1}</span>
+                                  <span className="text-xs text-white/70 truncate max-w-24">
+                                    {score.categories.slice(0, 1).join('')}
+                                    {score.categories.length > 1 && '...'}
+                                  </span>
+                                </div>
+                                <div className="text-sm font-bold text-white">
+                                  {score.percentage}%
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
                     <button
                       onClick={generateQuestions}
-                      className="w-full bg-gradient-to-r from-green-400 via-blue-400 to-purple-500 hover:from-green-500 hover:via-blue-500 hover:to-purple-600 text-white font-black py-4 md:py-6 px-6 md:px-8 rounded-xl md:rounded-2xl text-lg md:text-2xl transition-all duration-300 shadow-2xl transform hover:scale-105 mb-6 md:mb-8"
+                      className={`w-full bg-gradient-to-r ${currentTheme.accent} hover:opacity-90 text-white font-black py-4 md:py-6 px-6 md:px-8 rounded-xl md:rounded-2xl text-lg md:text-2xl transition-all duration-300 shadow-2xl transform hover:scale-105 mb-6 md:mb-8`}
                     >
                       <span className="flex items-center justify-center gap-2 md:gap-3">
                         🚀 {t('startGameButton')} 🚀
@@ -495,8 +1150,16 @@
 
           if (gameState === 'loading') {
             return (
-              <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white flex items-center justify-center p-4">
+              <div className={`min-h-screen bg-gradient-to-br ${currentTheme.background} text-white flex items-center justify-center p-4 ${highContrast ? 'contrast-125 brightness-110' : ''}`}>
                 <div className="text-center">
+                  {/* Ses Kontrolü */}
+                  <button
+                    onClick={() => setSoundEnabled(!soundEnabled)}
+                    className="sound-toggle"
+                    title={soundEnabled ? "Sesi Kapat" : "Sesi Aç"}
+                  >
+                    {soundEnabled ? "🔊" : "🔇"}
+                  </button>
                   <div className="relative mb-6 md:mb-8">
                     <div className="animate-spin w-16 h-16 md:w-24 md:h-24 border-6 md:border-8 border-cyan-400 border-t-transparent rounded-full mx-auto"></div>
                     <div className="absolute inset-0 animate-ping w-16 h-16 md:w-24 md:h-24 border-3 md:border-4 border-pink-400 border-t-transparent rounded-full mx-auto"></div>
@@ -521,16 +1184,34 @@
                                 { emoji: '❓', color: 'from-gray-400 to-gray-500' };
             
             return (
-              <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white p-4">
+              <div className={`min-h-screen bg-gradient-to-br ${currentTheme.background} text-white p-4 ${highContrast ? 'contrast-125 brightness-110' : ''}`}>
                 <div className="max-w-4xl mx-auto">
+                  {/* Ses Kontrolü */}
+                  <button
+                    onClick={() => setSoundEnabled(!soundEnabled)}
+                    className="sound-toggle"
+                    title={soundEnabled ? "Sesi Kapat" : "Sesi Aç"}
+                  >
+                    {soundEnabled ? "🔊" : "🔇"}
+                  </button>
                   <div className="mobile-flex flex flex-col md:flex-row justify-between items-center mb-6 md:mb-8 gap-4">
                     <div className="bg-white/10 backdrop-blur-lg rounded-xl md:rounded-2xl px-4 md:px-6 py-2 md:py-3 border border-white/20">
                       <div className="mobile-text text-cyan-300 font-bold text-lg md:text-xl flex items-center gap-2">
                         🎯 {t('questionOf')} {currentQuestion + 1} {t('of')} {questions.length}
                       </div>
                     </div>
+                    
+                    {/* Timer */}
+                    {timerEnabled && (
+                      <div className="timer-container">
+                        <div className={`timer-circle ${timeLeft <= 5 ? 'timer-critical' : timeLeft <= 10 ? 'timer-warning' : ''}`}>
+                          <div className="timer-text">{timeLeft}</div>
+                        </div>
+                      </div>
+                    )}
+                    
                     <div className="bg-white/10 backdrop-blur-lg rounded-xl md:rounded-2xl px-4 md:px-6 py-2 md:py-3 border border-white/20">
-                      <div className="mobile-text text-yellow-300 font-bold text-lg md:text-xl flex items-center gap-2">
+                      <div className={`mobile-text text-yellow-300 font-bold text-lg md:text-xl flex items-center gap-2 ${showAnswer ? 'score-animation' : ''}`}>
                         ⭐ {t('score')} {score}
                       </div>
                     </div>
@@ -574,7 +1255,7 @@
                             key={index}
                             onClick={() => !showAnswer && selectAnswer(index)}
                             disabled={showAnswer}
-                            className={buttonClass}
+                            className={`${buttonClass} ${getAnswerClass(index, index === question.correctAnswer, selectedAnswer === index)}`}
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-3 md:gap-4">
@@ -606,6 +1287,15 @@
                       </span>
                     </button>
                   </div>
+                  
+                  {/* Başarı Popup'ı */}
+                  {showAchievement && (
+                    <div className="achievement-popup">
+                      <div className="achievement-emoji">{showAchievement.emoji}</div>
+                      <div className="achievement-title">{showAchievement.name}</div>
+                      <div className="achievement-description">{showAchievement.description}</div>
+                    </div>
+                  )}
                 </div>
               </div>
             );
@@ -614,8 +1304,29 @@
           if (gameState === 'results') {
             const percentage = Math.round((score / questions.length) * 100);
             return (
-              <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white p-4">
+              <div className={`min-h-screen bg-gradient-to-br ${currentTheme.background} text-white p-4 ${highContrast ? 'contrast-125 brightness-110' : ''}`}>
                 <div className="max-w-4xl mx-auto text-center">
+                  {/* Ses Kontrolü */}
+                  <button
+                    onClick={() => setSoundEnabled(!soundEnabled)}
+                    className="sound-toggle"
+                    title={soundEnabled ? "Sesi Kapat" : "Sesi Aç"}
+                  >
+                    {soundEnabled ? "🔊" : "🔇"}
+                  </button>
+                  
+                  {/* Konfeti Efekti */}
+                  {showConfetti && Array.from({ length: 50 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="confetti"
+                      style={{
+                        left: `${Math.random() * 100}%`,
+                        animationDelay: `${Math.random() * 3}s`,
+                        background: `hsl(${Math.random() * 360}, 70%, 50%)`
+                      }}
+                    />
+                  ))}
                   <div className="mb-6 md:mb-8">
                     <h1 className="mobile-title text-4xl md:text-6xl lg:text-7xl font-black mb-4 md:mb-6 bg-gradient-to-r from-yellow-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
                       🏆 {t('resultsTitle')} 🏆
@@ -695,9 +1406,20 @@
                     </div>
                   </div>
                 </div>
+                
+                {/* Başarı Popup'ı */}
+                {showAchievement && (
+                  <div className="achievement-popup">
+                    <div className="achievement-emoji">{showAchievement.emoji}</div>
+                    <div className="achievement-title">{showAchievement.name}</div>
+                    <div className="achievement-description">{showAchievement.description}</div>
+                  </div>
+                )}
               </div>
             );
           }
+
+
         };
 
         ReactDOM.render(<TriviaGame />, document.getElementById('root'));

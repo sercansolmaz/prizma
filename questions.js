@@ -98,57 +98,37 @@ const QUESTION_DATABASE = {
       },
       {
         question: "Türkiye'de kadınlara seçme hakkı hangi yıl verildi?",
-        options: ["1930", "1932", "1934", "1936"],
-        correctAnswer: 2
-      },
-      {
-        question: "Dumlupınar Savaşı hangi yıl yapıldı?",
-        options: ["1920", "1921", "1922", "1923"],
-        correctAnswer: 2
-      },
-      {
-        question: "İnönü Savaşları kaç tane yapıldı?",
-        options: ["1", "2", "3", "4"],
-        correctAnswer: 1
-      },
-      {
-        question: "Amasya Genelgesi hangi yıl yayınlandı?",
-        options: ["1919", "1920", "1921", "1922"],
-        correctAnswer: 0
-      },
-      {
-        question: "Erzurum Kongresi hangi yıl yapıldı?",
-        options: ["1919", "1920", "1921", "1922"],
-        correctAnswer: 0
-      },
-      {
-        question: "Sivas Kongresi hangi yıl yapıldı?",
-        options: ["1919", "1920", "1921", "1922"],
-        correctAnswer: 0
-      },
-      {
-        question: "Türkiye'nin ilk anayasası hangi yıl kabul edildi?",
-        options: ["1920", "1921", "1922", "1923"],
-        correctAnswer: 1
-      },
-      {
-        question: "Halifeliğin kaldırılması hangi yıl gerçekleşti?",
-        options: ["1922", "1923", "1924", "1925"],
-        correctAnswer: 2
-      },
-      {
-        question: "Latin harfleri hangi yıl kabul edildi?",
-        options: ["1926", "1927", "1928", "1929"],
-        correctAnswer: 2
-      },
-      {
-        question: "Türkiye'de çok partili siyasi hayata geçiş hangi yıl başladı?",
-        options: ["1945", "1946", "1947", "1948"],
+        options: ["1930", "1934", "1935", "1936"],
         correctAnswer: 1
       },
       {
         question: "Demokrat Parti hangi yıl kuruldu?",
         options: ["1944", "1945", "1946", "1947"],
+        correctAnswer: 2
+      },
+      {
+        question: "Türkiye'de ilk çok partili seçim hangi yıl yapıldı?",
+        options: ["1945", "1946", "1947", "1948"],
+        correctAnswer: 1
+      },
+      {
+        question: "Türkiye'de ilk televizyon yayını hangi yıl başladı?",
+        options: ["1964", "1965", "1966", "1967"],
+        correctAnswer: 0
+      },
+      {
+        question: "Türkiye'de ilk renkli televizyon yayını hangi yıl başladı?",
+        options: ["1981", "1982", "1983", "1984"],
+        correctAnswer: 0
+      },
+      {
+        question: "Türkiye'de ilk cep telefonu hangi yıl kullanılmaya başlandı?",
+        options: ["1991", "1992", "1993", "1994"],
+        correctAnswer: 1
+      },
+      {
+        question: "Türkiye'de ilk internet bağlantısı hangi yıl kuruldu?",
+        options: ["1991", "1992", "1993", "1994"],
         correctAnswer: 2
       }
     ],
@@ -2694,7 +2674,7 @@ const QUESTION_DATABASE = {
         correctAnswer: 1
       },
       {
-        question: "Pikasso hangi sanat akımının öncüsüdür?",
+        question: "Picasso hangi sanat akımının öncüsüdür?",
         options: ["Empresyonizm", "Kübizm", "Sürrealizm", "Fauvizm"],
         correctAnswer: 1
       },
@@ -3210,7 +3190,7 @@ const QUESTION_DATABASE = {
         correctAnswer: 2
       },
       {
-        question: "Octopus kaç kola sahiptir?",
+        question: "Octopus kaç kola sahip?",
         options: ["6", "8", "10", "12"],
         correctAnswer: 1
       },
@@ -3225,7 +3205,7 @@ const QUESTION_DATABASE = {
         correctAnswer: 2
       },
       {
-        question: "Hangi balık tatlı ve tuzlu suda yaşayabilir?",
+        question: "Hangi hayvan tatlı ve tuzlu suda yaşayabilir?",
         options: ["Somon", "Ton balığı", "Sardalya", "Hamsi"],
         correctAnswer: 0
       },
@@ -3282,7 +3262,7 @@ const QUESTION_DATABASE = {
         correctAnswer: 2
       },
       {
-        question: "Hangi böcek asıl böcek değildir?",
+        question: "Hangi hayvan asıl böcek değildir?",
         options: ["Karınca", "Arı", "Örümcek", "Kelebek"],
         correctAnswer: 2
       },
@@ -4098,408 +4078,10 @@ const QUESTION_DATABASE = {
       }
     ]
   },
-  "Teknoloji": {
-    "easy": [
-      {
-        question: "İlk iPhone hangi yıl piyasaya sürüldü?",
-        options: ["2005", "2006", "2007", "2008"],
-        correctAnswer: 2
-      },
-      {
-        question: "Google hangi yıl kuruldu?",
-        options: ["1996", "1997", "1998", "1999"],
-        correctAnswer: 2
-      },
-      {
-        question: "Facebook'un kurucusu kimdir?",
-        options: ["Mark Zuckerberg", "Bill Gates", "Steve Jobs", "Elon Musk"],
-        correctAnswer: 0
-      },
-      {
-        question: "İnternet hangi yıl icat edildi?",
-        options: ["1969", "1970", "1971", "1972"],
-        correctAnswer: 0
-      },
-      {
-        question: "Windows işletim sistemi hangi şirket tarafından geliştirildi?",
-        options: ["Apple", "Microsoft", "Google", "IBM"],
-        correctAnswer: 1
-      },
-      {
-        question: "YouTube hangi yıl kuruldu?",
-        options: ["2004", "2005", "2006", "2007"],
-        correctAnswer: 1
-      },
-      {
-        question: "Twitter'ın yeni adı nedir?",
-        options: ["X", "Y", "Z", "Meta"],
-        correctAnswer: 0
-      },
-      {
-        question: "Instagram hangi yıl kuruldu?",
-        options: ["2008", "2009", "2010", "2011"],
-        correctAnswer: 2
-      },
-      {
-        question: "WhatsApp hangi yıl kuruldu?",
-        options: ["2007", "2008", "2009", "2010"],
-        correctAnswer: 2
-      },
-      {
-        question: "TikTok hangi ülke şirketi tarafından geliştirildi?",
-        options: ["Japonya", "Güney Kore", "Çin", "Hindistan"],
-        correctAnswer: 2
-      },
-      {
-        question: "Tesla şirketinin CEO'su kimdir?",
-        options: ["Jeff Bezos", "Elon Musk", "Bill Gates", "Mark Zuckerberg"],
-        correctAnswer: 1
-      },
-      {
-        question: "Amazon hangi yıl kuruldu?",
-        options: ["1993", "1994", "1995", "1996"],
-        correctAnswer: 1
-      },
-      {
-        question: "Netflix hangi yıl kuruldu?",
-        options: ["1995", "1996", "1997", "1998"],
-        correctAnswer: 2
-      },
-      {
-        question: "Spotify hangi ülke şirketi?",
-        options: ["İsveç", "Norveç", "Danimarka", "Finlandiya"],
-        correctAnswer: 0
-      },
-      {
-        question: "Uber hangi yıl kuruldu?",
-        options: ["2007", "2008", "2009", "2010"],
-        correctAnswer: 2
-      },
-      {
-        question: "Airbnb hangi yıl kuruldu?",
-        options: ["2006", "2007", "2008", "2009"],
-        correctAnswer: 2
-      },
-      {
-        question: "LinkedIn hangi yıl kuruldu?",
-        options: ["2001", "2002", "2003", "2004"],
-        correctAnswer: 1
-      },
-      {
-        question: "Snapchat hangi yıl kuruldu?",
-        options: ["2009", "2010", "2011", "2012"],
-        correctAnswer: 2
-      },
-      {
-        question: "Pinterest hangi yıl kuruldu?",
-        options: ["2008", "2009", "2010", "2011"],
-        correctAnswer: 1
-      },
-      {
-        question: "Reddit hangi yıl kuruldu?",
-        options: ["2003", "2004", "2005", "2006"],
-        correctAnswer: 2
-      },
-      {
-        question: "Discord hangi yıl kuruldu?",
-        options: ["2013", "2014", "2015", "2016"],
-        correctAnswer: 2
-      },
-      {
-        question: "Zoom hangi yıl kuruldu?",
-        options: ["2009", "2010", "2011", "2012"],
-        correctAnswer: 2
-      },
-      {
-        question: "Slack hangi yıl kuruldu?",
-        options: ["2011", "2012", "2013", "2014"],
-        correctAnswer: 2
-      },
-      {
-        question: "Dropbox hangi yıl kuruldu?",
-        options: ["2006", "2007", "2008", "2009"],
-        correctAnswer: 1
-      },
-      {
-        question: "Evernote hangi yıl kuruldu?",
-        options: ["2004", "2005", "2006", "2007"],
-        correctAnswer: 2
-      },
-      {
-        question: "Skype hangi yıl kuruldu?",
-        options: ["2001", "2002", "2003", "2004"],
-        correctAnswer: 2
-      }
-    ],
-    "medium": [
-      {
-        question: "İlk bilgisayar hangi yıl icat edildi?",
-        options: ["1936", "1946", "1956", "1966"],
-        correctAnswer: 0
-      },
-      {
-        question: "World Wide Web hangi yıl icat edildi?",
-        options: ["1989", "1990", "1991", "1992"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk e-posta hangi yıl gönderildi?",
-        options: ["1965", "1969", "1971", "1973"],
-        correctAnswer: 2
-      },
-      {
-        question: "İlk web tarayıcısı hangi yıl geliştirildi?",
-        options: ["1989", "1990", "1991", "1992"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk akıllı telefon hangi yıl piyasaya sürüldü?",
-        options: ["1992", "1994", "1996", "1998"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk USB bellek hangi yıl icat edildi?",
-        options: ["1998", "1999", "2000", "2001"],
-        correctAnswer: 2
-      },
-      {
-        question: "İlk CD-ROM hangi yıl piyasaya sürüldü?",
-        options: ["1982", "1984", "1986", "1988"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk DVD hangi yıl piyasaya sürüldü?",
-        options: ["1993", "1995", "1997", "1999"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk Blu-ray disk hangi yıl piyasaya sürüldü?",
-        options: ["2003", "2005", "2007", "2009"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk SSD (Solid State Drive) hangi yıl piyasaya sürüldü?",
-        options: ["1989", "1991", "1993", "1995"],
-        correctAnswer: 0
-      },
-      {
-        question: "İlk 3D yazıcı hangi yıl icat edildi?",
-        options: ["1981", "1983", "1985", "1987"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk drone hangi yıl icat edildi?",
-        options: ["1907", "1917", "1927", "1937"],
-        correctAnswer: 0
-      },
-      {
-        question: "İlk robot hangi yıl icat edildi?",
-        options: ["1920", "1930", "1940", "1950"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk yapay zeka programı hangi yıl yazıldı?",
-        options: ["1950", "1952", "1954", "1956"],
-        correctAnswer: 2
-      },
-      {
-        question: "İlk video oyunu hangi yıl geliştirildi?",
-        options: ["1958", "1960", "1962", "1964"],
-        correctAnswer: 0
-      },
-      {
-        question: "İlk bilgisayar virüsü hangi yıl yazıldı?",
-        options: ["1982", "1984", "1986", "1988"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk web sitesi hangi yıl yayınlandı?",
-        options: ["1990", "1991", "1992", "1993"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk arama motoru hangi yıl geliştirildi?",
-        options: ["1990", "1992", "1994", "1996"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk sosyal medya platformu hangi yıl kuruldu?",
-        options: ["1995", "1997", "1999", "2001"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk akıllı saat hangi yıl piyasaya sürüldü?",
-        options: ["1998", "2000", "2002", "2004"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk tablet bilgisayar hangi yıl piyasaya sürüldü?",
-        options: ["1989", "1991", "1993", "1995"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk e-kitap okuyucu hangi yıl piyasaya sürüldü?",
-        options: ["1998", "2000", "2002", "2004"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk dijital kamera hangi yıl icat edildi?",
-        options: ["1975", "1977", "1979", "1981"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk MP3 çalar hangi yıl piyasaya sürüldü?",
-        options: ["1995", "1997", "1999", "2001"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk Wi-Fi standardı hangi yıl kabul edildi?",
-        options: ["1995", "1997", "1999", "2001"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk Bluetooth teknolojisi hangi yıl geliştirildi?",
-        options: ["1994", "1996", "1998", "2000"],
-        correctAnswer: 1
-      }
-    ],
-    "hard": [
-      {
-        question: "İlk mikroişlemci hangi yıl geliştirildi?",
-        options: ["1969", "1971", "1973", "1975"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk RAM bellek hangi yıl icat edildi?",
-        options: ["1966", "1968", "1970", "1972"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk hard disk hangi yıl icat edildi?",
-        options: ["1952", "1954", "1956", "1958"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk LCD ekran hangi yıl geliştirildi?",
-        options: ["1968", "1970", "1972", "1974"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk LED ekran hangi yıl geliştirildi?",
-        options: ["1962", "1964", "1966", "1968"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk OLED ekran hangi yıl geliştirildi?",
-        options: ["1987", "1989", "1991", "1993"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk quantum bilgisayar hangi yıl geliştirildi?",
-        options: ["1998", "2000", "2002", "2004"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk blockchain teknolojisi hangi yıl geliştirildi?",
-        options: ["2008", "2009", "2010", "2011"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk kripto para hangi yıl oluşturuldu?",
-        options: ["2008", "2009", "2010", "2011"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk NFT hangi yıl oluşturuldu?",
-        options: ["2012", "2014", "2016", "2018"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk metaverse platformu hangi yıl kuruldu?",
-        options: ["2003", "2005", "2007", "2009"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk yapay zeka dili hangi yıl geliştirildi?",
-        options: ["1956", "1958", "1960", "1962"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk makine öğrenmesi algoritması hangi yıl geliştirildi?",
-        options: ["1952", "1954", "1956", "1958"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk derin öğrenme ağı hangi yıl geliştirildi?",
-        options: ["1943", "1945", "1947", "1949"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk chatbot hangi yıl geliştirildi?",
-        options: ["1964", "1966", "1968", "1970"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk sanal gerçeklik sistemi hangi yıl geliştirildi?",
-        options: ["1962", "1964", "1966", "1968"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk artırılmış gerçeklik sistemi hangi yıl geliştirildi?",
-        options: ["1968", "1970", "1972", "1974"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk hologram teknolojisi hangi yıl geliştirildi?",
-        options: ["1947", "1949", "1951", "1953"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk biyometrik kimlik doğrulama hangi yıl geliştirildi?",
-        options: ["1960", "1962", "1964", "1966"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk retina tarayıcı hangi yıl geliştirildi?",
-        options: ["1984", "1986", "1988", "1990"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk parmak izi okuyucu hangi yıl geliştirildi?",
-        options: ["1988", "1990", "1992", "1994"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk yüz tanıma sistemi hangi yıl geliştirildi?",
-        options: ["1964", "1966", "1968", "1970"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk ses tanıma sistemi hangi yıl geliştirildi?",
-        options: ["1952", "1954", "1956", "1958"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk konuşma tanıma sistemi hangi yıl geliştirildi?",
-        options: ["1952", "1954", "1956", "1958"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk çeviri yazılımı hangi yıl geliştirildi?",
-        options: ["1954", "1956", "1958", "1960"],
-        correctAnswer: 1
-      },
-      {
-        question: "İlk OCR (Optik Karakter Tanıma) hangi yıl geliştirildi?",
-        options: ["1974", "1976", "1978", "1980"],
-        correctAnswer: 1
-      }
-    ]
-  },
   "Yemek Kültürü": {
     "easy": [
       {
-        question: "Türk mutfağının en ünlü yemeği hangisidir?",
+        question: "Türkiye'nin en popüler yemeği hangisidir?",
         options: ["Kebap", "Döner", "Lahmacun", "Pide"],
         correctAnswer: 1
       },
