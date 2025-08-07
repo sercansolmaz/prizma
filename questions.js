@@ -1131,6 +1131,11 @@ const QUESTION_DATABASE = {
         question: "Hangi deniz en tuzludur?",
         options: ["Akdeniz", "Ölü Deniz", "Kızıl Deniz", "Baltık Denizi"],
         correctAnswer: 1
+      },
+      {
+        question: "Dünya'nın en küçük kıtası hangisidir?",
+        options: ["Avrupa", "Avustralya", "Antarktika", "Güney Amerika"],
+        correctAnswer: 1
       }
     ],
     "medium": [
@@ -1283,6 +1288,101 @@ const QUESTION_DATABASE = {
         question: "Hangi çöl Afrika'nın güneyinde yer alır?",
         options: ["Sahara", "Kalahari", "Namib", "Libyan"],
         correctAnswer: 1
+      },
+      {
+        question: "Dünya'nın en büyük adası hangisidir?",
+        options: ["Madagaskar", "Grönland", "Yeni Gine", "Borneo"],
+        correctAnswer: 1
+      },
+      {
+        question: "Hangi ülke hem Avrupa hem de Asya'da toprakları bulunan tek ülkedir?",
+        options: ["Türkiye", "Rusya", "Kazakistan", "Azerbaycan"],
+        correctAnswer: 1
+      },
+      {
+        question: "Dünya'nın en uzun dağ sırası hangisidir?",
+        options: ["Himalayalar", "Andes", "Rocky", "Alpler"],
+        correctAnswer: 1
+      },
+      {
+        question: "Hangi ülkenin en çok komşusu vardır?",
+        options: ["Rusya", "Çin", "Brezilya", "Almanya"],
+        correctAnswer: 1
+      },
+      {
+        question: "Panama Kanalı hangi iki okyanusu birbirine bağlar?",
+        options: ["Atlantik-Hint", "Pasifik-Atlantik", "Pasifik-Hint", "Atlantik-Arktik"],
+        correctAnswer: 1
+      },
+      {
+        question: "Dünya'nın en büyük çanağı (havza) hangisidir?",
+        options: ["Amazon Havzası", "Kongo Havzası", "Nil Havzası", "Ganges Havzası"],
+        correctAnswer: 0
+      },
+      {
+        question: "Hangi kıtada en çok ülke bulunur?",
+        options: ["Asya", "Afrika", "Avrupa", "Güney Amerika"],
+        correctAnswer: 1
+      },
+      {
+        question: "Dünya'nın en yüksek şelalesi hangisidir?",
+        options: ["Niagara", "Angel", "Victoria", "Iguazu"],
+        correctAnswer: 1
+      },
+      {
+        question: "Hangi ülke dünyanın en uzun sahil şeridine sahiptir?",
+        options: ["Avustralya", "Kanada", "Rusya", "Norveç"],
+        correctAnswer: 1
+      },
+      {
+        question: "Dünya'nın en büyük yarımadası hangisidir?",
+        options: ["İberya", "Arap", "Hindistan", "Alaska"],
+        correctAnswer: 1
+      },
+      {
+        question: "Hangi boğaz Avrupa ile Afrika'yı ayırır?",
+        options: ["Cebelitarık", "Süveyş", "Bering", "Malakka"],
+        correctAnswer: 0
+      },
+      {
+        question: "Dünya'nın en büyük delta alanı hangisidir?",
+        options: ["Nil Deltası", "Ganges-Brahmaputra Deltası", "Mississippi Deltası", "Mekong Deltası"],
+        correctAnswer: 1
+      },
+      {
+        question: "Hangi ülke en çok saat dilimini kapsar?",
+        options: ["Rusya", "ABD", "Kanada", "Çin"],
+        correctAnswer: 0
+      },
+      {
+        question: "Dünya'nın en derin okyanus çukuru hangisidir?",
+        options: ["Mariana Çukuru", "Puerto Rico Çukuru", "Java Çukuru", "Peru Çukuru"],
+        correctAnswer: 0
+      },
+      {
+        question: "Hangi göl dünyanın en yüksek rakımlı büyük gölüdür?",
+        options: ["Titicaca", "Baikal", "Hazar", "Aral"],
+        correctAnswer: 0
+      },
+      {
+        question: "Dünya'nın en büyük kum çölü hangisidir?",
+        options: ["Sahara", "Gobi", "Kalahari", "Rub al Khali"],
+        correctAnswer: 3
+      },
+      {
+        question: "Hangi nehir en çok ülkeden geçer?",
+        options: ["Tuna", "Nil", "Amazon", "Rhin"],
+        correctAnswer: 0
+      },
+      {
+        question: "Dünya'nın en büyük iç denizi hangisidir?",
+        options: ["Hazar Denizi", "Aral Gölü", "Büyük Göller", "Baikal Gölü"],
+        correctAnswer: 0
+      },
+      {
+        question: "Hangi volkan dünyanın en yüksek aktif volkanıdır?",
+        options: ["Etna", "Fuji", "Ojos del Salado", "Kilimanjaro"],
+        correctAnswer: 2
       }
     ],
     "hard": [
@@ -1435,6 +1535,101 @@ const QUESTION_DATABASE = {
         question: "Türkiye'nin jeomorfolojik yapısının yüzde kaçı dağlıktır?",
         options: ["65", "70", "75", "80"],
         correctAnswer: 2
+      },
+      {
+        question: "Hangi okyanus sırtı en uzundur?",
+        options: ["Orta Atlantik Sırtı", "Doğu Pasifik Sırtı", "Güneybatı Hint Sırtı", "Carlsberg Sırtı"],
+        correctAnswer: 0
+      },
+      {
+        question: "Dünya'nın en büyük atol grubu hangisidir?",
+        options: ["Maldivler", "Marshall Adaları", "Tuamotu", "Kiribati"],
+        correctAnswer: 2
+      },
+      {
+        question: "Hangi tektonik plaka en hızlı hareket eder?",
+        options: ["Pasifik Plakası", "Nazca Plakası", "Avustralya Plakası", "Cocos Plakası"],
+        correctAnswer: 1
+      },
+      {
+        question: "Dünya'nın en büyük buzul sahası hangisidir?",
+        options: ["Grönland Buzul Örtüsü", "Antarktika Buzul Örtüsü", "Patagonya Buzulları", "Alaska Buzulları"],
+        correctAnswer: 1
+      },
+      {
+        question: "Hangi iklim kuşağında en fazla biyoçeşitlilik bulunur?",
+        options: ["Tropikal yağmur ormanları", "Akdeniz iklimi", "Step iklimi", "Taiga"],
+        correctAnswer: 0
+      },
+      {
+        question: "Dünya'nın en derin kara çukuru hangisidir?",
+        options: ["Ölü Deniz", "Turfan Çukuru", "Qattara Çukuru", "Danakil Çukuru"],
+        correctAnswer: 3
+      },
+      {
+        question: "Hangi okyanus akıntısı en güçlüdür?",
+        options: ["Gulf Stream", "Kuroshio", "Antarktik Çevresel Akıntı", "Agulhas Akıntısı"],
+        correctAnswer: 2
+      },
+      {
+        question: "Dünya'nın en yüksek platosuna ne ad verilir?",
+        options: ["Altiplano", "Dekkan Platosu", "Tibet Platosu", "Anadolu Platosu"],
+        correctAnswer: 2
+      },
+      {
+        question: "Hangi mineral dünyanın en sert mineraldir?",
+        options: ["Korund", "Elmas", "Kuvars", "Topaz"],
+        correctAnswer: 1
+      },
+      {
+        question: "Dünya'nın manyetik kutupları ne kadar sürede yer değiştirir?",
+        options: ["100-1000 yıl", "1000-10000 yıl", "10000-100000 yıl", "100000-1000000 yıl"],
+        correctAnswer: 3
+      },
+      {
+        question: "Hangi jeolojik dönemde dinozorlar yaşadı?",
+        options: ["Paleozoik", "Mezozoik", "Senozoik", "Prekambriyen"],
+        correctAnswer: 1
+      },
+      {
+        question: "Dünya'nın en büyük meteor krateri hangisidir?",
+        options: ["Chicxulub", "Vredefort", "Sudbury", "Popigai"],
+        correctAnswer: 1
+      },
+      {
+        question: "Hangi ülke en çok aktif volkana sahiptir?",
+        options: ["Endonezya", "Japonya", "İzlanda", "Şili"],
+        correctAnswer: 0
+      },
+      {
+        question: "Dünya'nın en derin mağara sistemi hangisidir?",
+        options: ["Mammoth Cave", "Krubera Cave", "Lechuguilla Cave", "Jewel Cave"],
+        correctAnswer: 1
+      },
+      {
+        question: "Hangi okyanus en yaşlıdır?",
+        options: ["Atlantik", "Pasifik", "Hint", "Arktik"],
+        correctAnswer: 1
+      },
+      {
+        question: "Dünya'nın en büyük kanyonu hangisidir?",
+        options: ["Grand Canyon", "Antelope Canyon", "Valles Marineris", "Yarlung Tsangpo"],
+        correctAnswer: 3
+      },
+      {
+        question: "Hangi element dünya kabuğunda en fazla bulunur?",
+        options: ["Silisyum", "Oksijen", "Alüminyum", "Demir"],
+        correctAnswer: 1
+      },
+      {
+        question: "Dünya'nın en büyük çöl gölü hangisidir?",
+        options: ["Lop Nur", "Aral Gölü", "Chott el Djerid", "Salar de Uyuni"],
+        correctAnswer: 0
+      },
+      {
+        question: "Hangi ada zinciri hotspot aktivitesi sonucu oluşmuştur?",
+        options: ["Karayipler", "Hawaii", "Filipinler", "Japonya"],
+        correctAnswer: 1
       }
     ]
   },
@@ -3655,6 +3850,56 @@ const QUESTION_DATABASE = {
         question: "Yüzde 25'i ondalık olarak yazarsak kaç olur?",
         options: ["0.25", "0.025", "2.5", "25"],
         correctAnswer: 0
+      },
+      {
+        question: "12 × 8 işleminin sonucu kaçtır?",
+        options: ["84", "96", "104", "112"],
+        correctAnswer: 1
+      },
+      {
+        question: "Bir dikdörtgenin alanı nasıl hesaplanır?",
+        options: ["uzunluk + genişlik", "uzunluk × genişlik", "2 × (uzunluk + genişlik)", "uzunluk ÷ genişlik"],
+        correctAnswer: 1
+      },
+      {
+        question: "15'in yarısı kaçtır?",
+        options: ["5", "7.5", "10", "12"],
+        correctAnswer: 1
+      },
+      {
+        question: "Hangi sayı 3'e tam bölünür?",
+        options: ["14", "17", "21", "23"],
+        correctAnswer: 2
+      },
+      {
+        question: "100 - 37 işleminin sonucu kaçtır?",
+        options: ["63", "67", "73", "77"],
+        correctAnswer: 0
+      },
+      {
+        question: "Bir saatte kaç dakika vardır?",
+        options: ["50", "60", "70", "80"],
+        correctAnswer: 1
+      },
+      {
+        question: "9²'nin değeri kaçtır?",
+        options: ["18", "72", "81", "90"],
+        correctAnswer: 2
+      },
+      {
+        question: "0.1 + 0.2 işleminin sonucu kaçtır?",
+        options: ["0.3", "0.12", "1.2", "3"],
+        correctAnswer: 0
+      },
+      {
+        question: "Hangi sayı en büyüktür?",
+        options: ["0.5", "1/3", "0.25", "2/3"],
+        correctAnswer: 3
+      },
+      {
+        question: "24'ün 1/4'ü kaçtır?",
+        options: ["4", "6", "8", "12"],
+        correctAnswer: 1
       }
     ],
     "medium": [
@@ -3707,6 +3952,56 @@ const QUESTION_DATABASE = {
         question: "Karmaşık sayılarda i² kaçtır?",
         options: ["1", "-1", "i", "-i"],
         correctAnswer: 1
+      },
+      {
+        question: "Bir parabolün denklemi y = ax² + bx + c formundaysa, a > 0 olduğunda parabol hangi yöne açık?",
+        options: ["Yukarı", "Aşağı", "Sağa", "Sola"],
+        correctAnswer: 0
+      },
+      {
+        question: "Hangi fonksiyon çift fonksiyondur?",
+        options: ["f(x) = x", "f(x) = x²", "f(x) = x³", "f(x) = 2x + 1"],
+        correctAnswer: 1
+      },
+      {
+        question: "∫x dx integralinin sonucu nedir?",
+        options: ["x²", "x²/2 + C", "2x + C", "x + C"],
+        correctAnswer: 1
+      },
+      {
+        question: "Bir matrisin determinantı ne zaman sıfırdır?",
+        options: ["Hiçbir zaman", "Her zaman", "Tekil olduğunda", "Kare olduğunda"],
+        correctAnswer: 2
+      },
+      {
+        question: "Fibonacci dizisinde 8'den sonra gelen sayı hangisidir?",
+        options: ["11", "13", "15", "21"],
+        correctAnswer: 1
+      },
+      {
+        question: "Bir kürenin hacmi formülü nedir?",
+        options: ["4πr²", "4πr³/3", "πr²", "2πr³"],
+        correctAnswer: 1
+      },
+      {
+        question: "Hangi sayı irrasyoneldir?",
+        options: ["1/3", "0.25", "√2", "22/7"],
+        correctAnswer: 2
+      },
+      {
+        question: "Sinüs fonksiyonunun periyodu kaçtır?",
+        options: ["π", "2π", "π/2", "4π"],
+        correctAnswer: 1
+      },
+      {
+        question: "Bir vektörün büyüklüğü nasıl hesaplanır?",
+        options: ["Bileşenlerin toplamı", "Bileşenlerin çarpımı", "Bileşenlerin karelerinin toplamının karekökü", "Bileşenlerin ortalaması"],
+        correctAnswer: 2
+      },
+      {
+        question: "Hangi eşitsizlik doğrudur?",
+        options: ["e < π", "π < e", "e = π", "2e = π"],
+        correctAnswer: 0
       }
     ],
     "hard": [
@@ -3758,6 +4053,56 @@ const QUESTION_DATABASE = {
       {
         question: "Milenyum Ödülü problemlerinden kaç tanesi çözülmüştür?",
         options: ["0", "1", "2", "3"],
+        correctAnswer: 1
+      },
+      {
+        question: "Lie grupları hangi matematikçi tarafından geliştirildi?",
+        options: ["Sophus Lie", "Élie Cartan", "Hermann Weyl", "Claude Chevalley"],
+        correctAnswer: 0
+      },
+      {
+        question: "Cantor'un Süreklilik Hipotezi hangi kardinal sayılarla ilgilidir?",
+        options: ["ℵ₀ ve ℵ₁", "ℵ₁ ve ℵ₂", "2^ℵ₀ ve ℵ₁", "ℵ₀ ve 2^ℵ₀"],
+        correctAnswer: 2
+      },
+      {
+        question: "Hodge Konjektürü hangi alanla ilgilidir?",
+        options: ["Cebirsel geometri", "Diferansiyel geometri", "Sayılar teorisi", "Fonksiyonel analiz"],
+        correctAnswer: 0
+      },
+      {
+        question: "Langlands Programı hangi alanları birleştirmeyi amaçlar?",
+        options: ["Geometri ve Analiz", "Sayılar teorisi ve Temsil teorisi", "Topoloji ve Cebir", "Mantık ve Küme teorisi"],
+        correctAnswer: 1
+      },
+      {
+        question: "Atiyah-Singer İndeks Teoremi hangi kavramları ilişkilendirir?",
+        options: ["Topoloji ve Analiz", "Geometri ve Cebir", "Diferansiyel geometri ve Topoloji", "Hepsi"],
+        correctAnswer: 3
+      },
+      {
+        question: "Grothendieck'in Motif teorisi hangi amaçla geliştirildi?",
+        options: ["Cebirsel geometriyi birleştirmek", "Sayılar teorisini genellemek", "Topolojiyi sınıflandırmak", "Kategori teorisini uygulamak"],
+        correctAnswer: 0
+      },
+      {
+        question: "Yang-Mills teorisi hangi fizik alanından matematiğe geçti?",
+        options: ["Kuantum mekaniği", "Görelilik teorisi", "Gauge teorisi", "İstatistiksel mekanik"],
+        correctAnswer: 2
+      },
+      {
+        question: "Donaldson İnvariantları hangi boyutlu manifoldlar için tanımlanır?",
+        options: ["2 boyutlu", "3 boyutlu", "4 boyutlu", "n boyutlu"],
+        correctAnswer: 2
+      },
+      {
+        question: "Seiberg-Witten teorisi hangi problemi çözmek için geliştirildi?",
+        options: ["4-manifold problemi", "Poincaré konjektürü", "Riemann hipotezi", "P vs NP problemi"],
+        correctAnswer: 0
+      },
+      {
+        question: "Kontsevich'in Deformasyon Kuantizasyonu hangi alanı birleştirir?",
+        options: ["Klasik ve kuantum mekaniği", "Geometri ve fizik", "Cebir ve analiz", "Topoloji ve kombinatorik"],
         correctAnswer: 1
       }
     ]
@@ -3813,6 +4158,56 @@ const QUESTION_DATABASE = {
         question: "İnsan kalbi dakikada kaç kez atar?",
         options: ["60-100", "40-60", "100-120", "120-140"],
         correctAnswer: 0
+      },
+      {
+        question: "Hangi element en hafiftir?",
+        options: ["Helyum", "Hidrojen", "Lityum", "Karbon"],
+        correctAnswer: 1
+      },
+      {
+        question: "Ses hangi ortamda en hızlı yayılır?",
+        options: ["Hava", "Su", "Metal", "Boşluk"],
+        correctAnswer: 2
+      },
+      {
+        question: "İnsan vücudunda kaç kemik vardır?",
+        options: ["186", "206", "226", "246"],
+        correctAnswer: 1
+      },
+      {
+        question: "Hangi vitamin güneş ışığıyla üretilir?",
+        options: ["Vitamin A", "Vitamin B", "Vitamin C", "Vitamin D"],
+        correctAnswer: 3
+      },
+      {
+        question: "Dünya'nın atmosferinde en çok bulunan gaz hangisidir?",
+        options: ["Oksijen", "Azot", "Karbondioksit", "Argon"],
+        correctAnswer: 1
+      },
+      {
+        question: "Hangi organ insülin üretir?",
+        options: ["Karaciğer", "Böbrek", "Pankreas", "Dalak"],
+        correctAnswer: 2
+      },
+      {
+        question: "Işık hızı saniyede yaklaşık kaç kilometredir?",
+        options: ["100.000 km", "200.000 km", "300.000 km", "400.000 km"],
+        correctAnswer: 2
+      },
+      {
+        question: "Hangi kan grubu evrensel vericisidir?",
+        options: ["A", "B", "AB", "O"],
+        correctAnswer: 3
+      },
+      {
+        question: "Bitkilerde fotosentez hangi organda gerçekleşir?",
+        options: ["Kök", "Gövde", "Yaprak", "Çiçek"],
+        correctAnswer: 2
+      },
+      {
+        question: "İnsan beyninin yüzde kaçı sudur?",
+        options: ["60%", "70%", "80%", "90%"],
+        correctAnswer: 2
       }
     ],
     "medium": [

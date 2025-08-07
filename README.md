@@ -36,6 +36,13 @@ Modern ve etkileşimli Türkçe bilgi yarışması oyunu. React ve Tailwind CSS 
 - Erişilebilirlik desteği
 - Tema tercihi kaydedilir
 
+### 🏆 Global Leaderboard
+- IP tabanlı skor sistemi
+- Her IP'den sadece en yüksek skor
+- Global rekabet
+- Nickname ile kişiselleştirme
+- Gerçek zamanlı skor tablosu
+
 ### 🎵 Ses Efektleri
 - Doğru/yanlış cevap sesleri
 - Tıklama sesleri
