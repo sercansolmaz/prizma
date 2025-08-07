@@ -7,6 +7,10 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="questions.js"></script>
     <style>
@@ -714,21 +718,68 @@
           // Aktif tema almak
           const currentTheme = themes[theme] || themes.default;
 
-          // API URL - Localhost için doğru port
-          const API_BASE = window.location.hostname === 'localhost' 
-            ? 'http://localhost:8081' 
-            : 'https://sercansolmaz.github.io/prizma/api';
+          // Firebase Configuration (Firebase Console'dan kopyalayın)
+          const firebaseConfig = {
+            // BURAYA GERÇEKÇİ FIREBASE CONFIG KODUNUZU YAPISTIRIN
+            // Şu anda demo veriler - çalışmayacak
+            apiKey: "BURAYA_API_KEY",
+            authDomain: "PROJE_ID.firebaseapp.com", 
+            databaseURL: "https://PROJE_ID-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "PROJE_ID",
+            storageBucket: "PROJE_ID.appspot.com",
+            messagingSenderId: "SENDER_ID",
+            appId: "APP_ID"
+          };
 
-          // Global leaderboard fonksiyonları (Mock sistem)
+          // Initialize Firebase
+          let firebaseApp, database;
+          try {
+            firebaseApp = firebase.initializeApp(firebaseConfig);
+            database = firebase.database();
+            console.log('🔥 Firebase başarıyla bağlandı!');
+          } catch (error) {
+            console.warn('⚠️ Firebase bağlantı hatası, mock sisteme geçiliyor:', error);
+            database = null;
+          }
+
+          // Global leaderboard fonksiyonları (Firebase + Fallback Mock)
           const fetchGlobalScores = async () => {
             setLoadingScores(true);
             try {
-              // Gerçek API yerine localStorage'dan al
-              const mockScores = loadFromLocalStorage('globalScores', []);
-              setGlobalScores(mockScores);
+              if (database) {
+                // Firebase'den skorları al
+                const scoresRef = database.ref('leaderboard');
+                const snapshot = await scoresRef.orderByChild('percentage').limitToLast(50).once('value');
+                const scores = [];
+                
+                snapshot.forEach((childSnapshot) => {
+                  scores.push({
+                    id: childSnapshot.key,
+                    ...childSnapshot.val()
+                  });
+                });
+                
+                // Yüksek skordan düşüğe sırala
+                scores.sort((a, b) => {
+                  if (a.percentage === b.percentage) {
+                    return b.timestamp - a.timestamp;
+                  }
+                  return b.percentage - a.percentage;
+                });
+                
+                setGlobalScores(scores);
+                console.log('🔥 Firebase\'den', scores.length, 'skor yüklendi');
+              } else {
+                // Fallback: localStorage'dan al
+                const mockScores = loadFromLocalStorage('globalScores', []);
+                setGlobalScores(mockScores);
+                console.log('📱 Local storage\'dan', mockScores.length, 'skor yüklendi');
+              }
             } catch (error) {
               console.warn('Global skorlar yüklenemedi:', error);
-              setGlobalScores([]);
+              // Fallback: localStorage'dan al
+              const mockScores = loadFromLocalStorage('globalScores', []);
+              setGlobalScores(mockScores);
             } finally {
               setLoadingScores(false);
             }
@@ -741,12 +792,7 @@
             }
 
             try {
-              // Mock sistem - localStorage kullan
-              const currentScores = loadFromLocalStorage('globalScores', []);
               const percentage = Math.round((scoreData.score / scoreData.totalQuestions) * 100);
-              
-              // Aynı nickname'e sahip skoru bul
-              const existingIndex = currentScores.findIndex(s => s.nickname === nickname.trim());
               
               const newScore = {
                 nickname: nickname.trim(),
@@ -759,54 +805,85 @@
                 timestamp: Date.now()
               };
 
-              let shouldUpdate = true;
-              let message = 'Skor kaydedildi!';
-              
-              if (existingIndex >= 0) {
-                if (currentScores[existingIndex].percentage >= percentage) {
-                  shouldUpdate = false;
-                  message = 'Mevcut skorunuz daha yüksek!';
+              if (database) {
+                // Firebase'e kaydet
+                const scoresRef = database.ref('leaderboard');
+                
+                // Aynı nickname ile mevcut skorları kontrol et
+                const existingQuery = await scoresRef.orderByChild('nickname').equalTo(nickname.trim()).once('value');
+                
+                let shouldSave = true;
+                let message = 'Skor kaydedildi!';
+                let existingKey = null;
+                
+                existingQuery.forEach((snapshot) => {
+                  const existingScore = snapshot.val();
+                  if (existingScore.percentage >= percentage) {
+                    shouldSave = false;
+                    message = 'Mevcut skorunuz daha yüksek!';
+                  } else {
+                    existingKey = snapshot.key;
+                    message = 'Skor güncellendi!';
+                  }
+                });
+                
+                if (shouldSave) {
+                  if (existingKey) {
+                    // Mevcut skoru güncelle
+                    await scoresRef.child(existingKey).set(newScore);
+                  } else {
+                    // Yeni skor ekle
+                    await scoresRef.push(newScore);
+                  }
+                  
+                  // Sıralamayı hesapla
+                  const rankSnapshot = await scoresRef.orderByChild('percentage').startAt(percentage).once('value');
+                  let rank = 1;
+                  rankSnapshot.forEach(() => rank++);
+                  
+                  alert(`🔥 ${message}\nSıralama: #${rank}`);
+                  fetchGlobalScores();
+                  console.log('🔥 Skor Firebase\'e kaydedildi');
                 } else {
-                  currentScores[existingIndex] = newScore;
-                  message = 'Skor güncellendi!';
+                  alert(message);
                 }
               } else {
-                currentScores.push(newScore);
-              }
+                // Fallback: localStorage kullan (eski sistem)
+                const currentScores = loadFromLocalStorage('globalScores', []);
+                const existingIndex = currentScores.findIndex(s => s.nickname === nickname.trim());
+                
+                let shouldUpdate = true;
+                let message = 'Skor kaydedildi!';
+                
+                if (existingIndex >= 0) {
+                  if (currentScores[existingIndex].percentage >= percentage) {
+                    shouldUpdate = false;
+                    message = 'Mevcut skorunuz daha yüksek!';
+                  } else {
+                    currentScores[existingIndex] = newScore;
+                    message = 'Skor güncellendi!';
+                  }
+                } else {
+                  currentScores.push(newScore);
+                }
 
-              if (shouldUpdate && existingIndex >= 0) {
-                // Güncellenmiş skorları sırala
-                currentScores.sort((a, b) => {
-                  if (a.percentage === b.percentage) {
-                    return b.timestamp - a.timestamp;
-                  }
-                  return b.percentage - a.percentage;
-                });
-                
-                // En iyi 50'yi tut
-                const limitedScores = currentScores.slice(0, 50);
-                saveToLocalStorage('globalScores', limitedScores);
-                
-                const rank = limitedScores.findIndex(s => s.nickname === nickname.trim()) + 1;
-                alert(`🎉 ${message}\nSıralama: #${rank}`);
-                fetchGlobalScores();
-              } else if (existingIndex < 0) {
-                // Yeni skor ekle
-                currentScores.sort((a, b) => {
-                  if (a.percentage === b.percentage) {
-                    return b.timestamp - a.timestamp;
-                  }
-                  return b.percentage - a.percentage;
-                });
-                
-                const limitedScores = currentScores.slice(0, 50);
-                saveToLocalStorage('globalScores', limitedScores);
-                
-                const rank = limitedScores.findIndex(s => s.nickname === nickname.trim()) + 1;
-                alert(`🎉 ${message}\nSıralama: #${rank}`);
-                fetchGlobalScores();
-              } else {
-                alert(message);
+                if (shouldUpdate) {
+                  currentScores.sort((a, b) => {
+                    if (a.percentage === b.percentage) {
+                      return b.timestamp - a.timestamp;
+                    }
+                    return b.percentage - a.percentage;
+                  });
+                  
+                  const limitedScores = currentScores.slice(0, 50);
+                  saveToLocalStorage('globalScores', limitedScores);
+                  
+                  const rank = limitedScores.findIndex(s => s.nickname === nickname.trim()) + 1;
+                  alert(`📱 ${message}\nSıralama: #${rank}`);
+                  fetchGlobalScores();
+                } else {
+                  alert(message);
+                }
               }
               
             } catch (error) {
