@@ -747,7 +747,8 @@
               if (database) {
                 // Firebase'den skorları al
                 const scoresRef = database.ref('leaderboard');
-                const snapshot = await scoresRef.orderByChild('percentage').limitToLast(50).once('value');
+                // Tüm skorları çek ve istemci tarafında sırala
+                const snapshot = await scoresRef.once('value');
                 const scores = [];
                 
                 snapshot.forEach((childSnapshot) => {
