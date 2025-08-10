@@ -1106,7 +1106,7 @@
 
           if (gameState === 'setup') {
             return (
-              <div className={`min-h-screen bg-gradient-to-br ${currentTheme.background} text-white p-4 ${highContrast ? 'contrast-125 brightness-110' : ''}`} onClick={resetGame}>
+              <div className={`min-h-screen bg-gradient-to-br ${currentTheme.background} text-white p-4 ${highContrast ? 'contrast-125 brightness-110' : ''}`}>
                 <div className="max-w-4xl mx-auto">
                   <div className="text-center mt-4 md:mt-8 mb-8 md:mb-12">
                     <div className="relative">
@@ -1711,7 +1711,7 @@
           if (gameState === 'results') {
             const percentage = Math.round((score / questions.length) * 100);
             return (
-              <div className={`min-h-screen bg-gradient-to-br ${currentTheme.background} text-white p-4 ${highContrast ? 'contrast-125 brightness-110' : ''}`}>
+              <div className={`min-h-screen bg-gradient-to-br ${currentTheme.background} text-white p-4 ${highContrast ? 'contrast-125 brightness-110' : ''}`} onClick={resetGame}>
                 <div className="max-w-4xl mx-auto text-center relative" onClick={(e) => e.stopPropagation()}>
                   <button
                     onClick={resetGame}
