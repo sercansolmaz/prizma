@@ -742,9 +742,11 @@
 
           // Global leaderboard fonksiyonları (Firebase + Fallback Mock)
           const fetchGlobalScores = async () => {
+            console.log('📊 Skorlar yükleniyor...');
             setLoadingScores(true);
             try {
               if (database) {
+                console.log('🔥 Firebase bağlantısı aktif, skorlar çekiliyor...');
                 // Firebase'den skorları al
                 const scoresRef = database.ref('leaderboard');
                 // Tüm skorları çek ve istemci tarafında sırala
@@ -769,18 +771,21 @@
                 setGlobalScores(scores);
                 console.log('🔥 Firebase\'den', scores.length, 'skor yüklendi');
               } else {
+                console.log('📱 Firebase bağlantısı yok, localStorage kullanılıyor...');
                 // Fallback: localStorage'dan al
                 const mockScores = loadFromLocalStorage('globalScores', []);
                 setGlobalScores(mockScores);
                 console.log('📱 Local storage\'dan', mockScores.length, 'skor yüklendi');
               }
             } catch (error) {
-              console.warn('Global skorlar yüklenemedi:', error);
+              console.error('❌ Global skorlar yüklenemedi:', error);
               // Fallback: localStorage'dan al
               const mockScores = loadFromLocalStorage('globalScores', []);
               setGlobalScores(mockScores);
+              console.log('🔄 Fallback: Local storage\'dan', mockScores.length, 'skor yüklendi');
             } finally {
               setLoadingScores(false);
+              console.log('✅ Skor yükleme işlemi tamamlandı');
             }
           };
 
@@ -1315,6 +1320,7 @@
                         <div className="flex items-end">
                           <button
                             onClick={() => {
+                              console.log('🏆 Global Skor Tablosu butonu tıklandı');
                               setShowLeaderboard(true);
                               fetchGlobalScores();
                             }}
@@ -1861,7 +1867,7 @@
                 )}
 
                 {/* Global Leaderboard Modal */}
-                {showLeaderboard && (
+                {showLeaderboard && console.log('🎯 Results sayfasında Leaderboard modal render ediliyor...') && (
                   <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
                     <div className={`bg-gradient-to-br ${currentTheme.background} rounded-2xl border border-gray-600/50 max-w-2xl w-full max-h-[80vh] overflow-hidden shadow-2xl`}>
                       <div className="p-6 border-b border-gray-600/50">
