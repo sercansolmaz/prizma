@@ -805,46 +805,66 @@
               };
 
               if (database) {
-                // Firebase'e kaydet
-                const scoresRef = database.ref('leaderboard');
-                
-                // Aynı nickname ile mevcut skorları kontrol et
-                const existingQuery = await scoresRef.orderByChild('nickname').equalTo(nickname.trim()).once('value');
-                
-                let shouldSave = true;
-                let message = 'Skor kaydedildi!';
-                let existingKey = null;
-                
-                existingQuery.forEach((snapshot) => {
-                  const existingScore = snapshot.val();
-                  if (existingScore.percentage >= percentage) {
-                    shouldSave = false;
-                    message = 'Mevcut skorunuz daha yüksek!';
-                  } else {
-                    existingKey = snapshot.key;
-                    message = 'Skor güncellendi!';
-                  }
-                });
-                
-                if (shouldSave) {
-                  if (existingKey) {
-                    // Mevcut skoru güncelle
-                    await scoresRef.child(existingKey).set(newScore);
-                  } else {
-                    // Yeni skor ekle
-                    await scoresRef.push(newScore);
-                  }
+                try {
+                  // Firebase'e kaydet
+                  const scoresRef = database.ref('leaderboard');
                   
-                  // Sıralamayı hesapla
-                  const rankSnapshot = await scoresRef.orderByChild('percentage').startAt(percentage).once('value');
-                  let rank = 1;
-                  rankSnapshot.forEach(() => rank++);
+                  // Aynı nickname ile mevcut skorları kontrol et
+                  const existingQuery = await scoresRef.orderByChild('nickname').equalTo(nickname.trim()).once('value');
                   
-                  alert(`🔥 ${message}\nSıralama: #${rank}`);
+                  let shouldSave = true;
+                  let message = 'Skor kaydedildi!';
+                  let existingKey = null;
+                  
+                  existingQuery.forEach((snapshot) => {
+                    const existingScore = snapshot.val();
+                    if (existingScore.percentage >= percentage) {
+                      shouldSave = false;
+                      message = 'Mevcut skorunuz daha yüksek!';
+                    } else {
+                      existingKey = snapshot.key;
+                      message = 'Skor güncellendi!';
+                    }
+                  });
+                  
+                  if (shouldSave) {
+                    if (existingKey) {
+                      // Mevcut skoru güncelle
+                      await scoresRef.child(existingKey).set(newScore);
+                    } else {
+                      // Yeni skor ekle
+                      await scoresRef.push(newScore);
+                    }
+                    
+                    // Sıralamayı hesapla
+                    const rankSnapshot = await scoresRef.orderByChild('percentage').startAt(percentage).once('value');
+                    let rank = 1;
+                    rankSnapshot.forEach(() => rank++);
+                    
+                    alert(`🔥 ${message}\nSıralama: #${rank}`);
+                    fetchGlobalScores();
+                    console.log('🔥 Skor Firebase\'e kaydedildi');
+                  } else {
+                    alert(message);
+                  }
+                } catch (firebaseError) {
+                  console.warn('Firebase yazma hatası, localStorage fallback:\n', firebaseError);
+                  // Firebase hata verirse local fallback'e düş
+                  const currentScores = loadFromLocalStorage('globalScores', []);
+                  const existingIndex = currentScores.findIndex(s => s.nickname === nickname.trim());
+                  if (existingIndex >= 0) {
+                    if (currentScores[existingIndex].percentage < percentage) {
+                      currentScores[existingIndex] = newScore;
+                    }
+                  } else {
+                    currentScores.push(newScore);
+                  }
+                  currentScores.sort((a, b) => a.percentage === b.percentage ? (b.timestamp - a.timestamp) : (b.percentage - a.percentage));
+                  const limitedScores = currentScores.slice(0, 50);
+                  saveToLocalStorage('globalScores', limitedScores);
+                  const rank = limitedScores.findIndex(s => s.nickname === nickname.trim()) + 1;
+                  alert(`📱 Skor kaydedildi (offline).\nSıralama: #${rank}`);
                   fetchGlobalScores();
-                  console.log('🔥 Skor Firebase\'e kaydedildi');
-                } else {
-                  alert(message);
                 }
               } else {
                 // Fallback: localStorage kullan (eski sistem)
@@ -891,6 +911,26 @@
             }
           };
 
+
+
+          // Skoru paylaş (Web Share API + Twitter fallback)
+          const shareScore = () => {
+            try {
+              const finalScore = score;
+              const total = questions.length;
+              const percentage = Math.round((finalScore / total) * 100);
+              const text = `PRIZMA'da ${total} soruda ${finalScore} doğru ile %${percentage} yaptım! #prizmagame`;
+              const url = 'https://sercansolmaz.github.io/prizma/';
+              if (navigator.share) {
+                navigator.share({ title: 'PRIZMA Skorum', text, url }).catch(() => {});
+              } else {
+                const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+                window.open(twitterUrl, '_blank');
+              }
+            } catch (e) {
+              console.warn('Paylaşım başarısız:', e);
+            }
+          };
 
 
           const generateQuestions = async () => {
@@ -1066,7 +1106,7 @@
 
           if (gameState === 'setup') {
             return (
-              <div className={`min-h-screen bg-gradient-to-br ${currentTheme.background} text-white p-4 ${highContrast ? 'contrast-125 brightness-110' : ''}`}>
+              <div className={`min-h-screen bg-gradient-to-br ${currentTheme.background} text-white p-4 ${highContrast ? 'contrast-125 brightness-110' : ''}`} onClick={resetGame}>
                 <div className="max-w-4xl mx-auto">
                   <div className="text-center mt-4 md:mt-8 mb-8 md:mb-12">
                     <div className="relative">
@@ -1672,7 +1712,14 @@
             const percentage = Math.round((score / questions.length) * 100);
             return (
               <div className={`min-h-screen bg-gradient-to-br ${currentTheme.background} text-white p-4 ${highContrast ? 'contrast-125 brightness-110' : ''}`}>
-                <div className="max-w-4xl mx-auto text-center">
+                <div className="max-w-4xl mx-auto text-center relative" onClick={(e) => e.stopPropagation()}>
+                  <button
+                    onClick={resetGame}
+                    className="absolute right-3 top-3 text-white/80 hover:text-white text-2xl p-1 rounded-lg hover:bg-white/10"
+                    aria-label="Kapat"
+                  >
+                    ✕
+                  </button>
                   {/* Ses Kontrolü */}
                   <button
                     onClick={() => setSoundEnabled(!soundEnabled)}
@@ -1773,7 +1820,16 @@
                             🏆 Global Skor Tablosuna Gönder 🏆
                           </span>
                         </button>
-                      )}
+                       )}
+
+                      <div className="grid gap-2 md:gap-3 mt-2">
+                        <button
+                          onClick={shareScore}
+                          className="w-full bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-black py-3 md:py-4 px-6 rounded-xl text-lg md:text-xl transition-all duration-300 shadow-2xl transform hover:scale-105"
+                        >
+                          <span className="flex items-center justify-center gap-2 md:gap-3">📣 Skorumu Paylaş (#prizmagame)</span>
+                        </button>
+                      </div>
                     </div>
                     
                     <div className="text-center text-sm md:text-lg text-white/80 border-t border-white/20 pt-4 md:pt-6">
