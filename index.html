@@ -735,6 +735,43 @@
             firebaseApp = firebase.initializeApp(firebaseConfig);
             database = firebase.database();
             console.log('🔥 Firebase başarıyla bağlandı!');
+            
+            // Firebase bağlantı testi
+            database.ref('.info/connected').on('value', (snapshot) => {
+              if (snapshot.val() === true) {
+                console.log('✅ Firebase Realtime Database bağlantısı aktif');
+                
+                // Test verisi olup olmadığını kontrol et
+                database.ref('leaderboard').once('value', (dataSnapshot) => {
+                  const data = dataSnapshot.val();
+                  if (data) {
+                    const scoreCount = Object.keys(data).length;
+                    console.log(`📊 Veritabanında ${scoreCount} skor mevcut`);
+                  } else {
+                    console.log('📊 Veritabanında henüz skor yok');
+                    // İlk test skorunu ekle
+                    database.ref('leaderboard').push({
+                      nickname: 'TestUser',
+                      score: 5,
+                      totalQuestions: 5,
+                      percentage: 100,
+                      difficulty: 'easy',
+                      categories: ['Test'],
+                      date: new Date().toLocaleDateString('tr-TR'),
+                      timestamp: Date.now()
+                    }).then(() => {
+                      console.log('✅ Test skoru eklendi');
+                    }).catch((error) => {
+                      console.error('❌ Test skoru eklenemedi:', error);
+                    });
+                  }
+                });
+                
+              } else {
+                console.log('❌ Firebase Realtime Database bağlantısı kopuk');
+              }
+            });
+            
           } catch (error) {
             console.warn('⚠️ Firebase bağlantı hatası, mock sisteme geçiliyor:', error);
             database = null;
