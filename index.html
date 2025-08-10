@@ -777,6 +777,35 @@
             database = null;
           }
 
+          // Manuel test skoru ekleme fonksiyonu (debug amaçlı)
+          const addTestScore = async (testName = 'TestUser', score = 10, total = 10) => {
+            if (database) {
+              try {
+                const testScore = {
+                  nickname: testName,
+                  score: score,
+                  totalQuestions: total,
+                  percentage: Math.round((score / total) * 100),
+                  difficulty: 'medium',
+                  categories: ['Test', 'Debug'],
+                  date: new Date().toLocaleDateString('tr-TR'),
+                  timestamp: Date.now()
+                };
+                
+                await database.ref('leaderboard').push(testScore);
+                console.log(`✅ Test skoru eklendi: ${testName} - ${score}/${total} (${testScore.percentage}%)`);
+                fetchGlobalScores();
+              } catch (error) {
+                console.error('❌ Test skoru eklenemedi:', error);
+              }
+            } else {
+              console.log('❌ Firebase bağlantısı yok');
+            }
+          };
+
+          // Test fonksiyonunu global scope'a ekle
+          window.addTestScore = addTestScore;
+
           // Global leaderboard fonksiyonları (Firebase + Fallback Mock)
           const fetchGlobalScores = async () => {
             console.log('📊 Skorlar yükleniyor...');
